@@ -17,7 +17,7 @@ function Campanhas(){
   useEffect(() => {
     const fetchData = async () => {
       if (localStorage.getItem("token") == null)
-        window.location.replace("../index.html");
+        window.location.replace("/login");
       else {
           document.getElementById("username").innerHTML = localStorage.getItem("username");
           localStorage.removeItem("id_campanha");
