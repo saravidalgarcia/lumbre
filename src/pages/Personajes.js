@@ -30,10 +30,14 @@ function Personajes(){
     },[]);
 
     useEffect(() => {
-        if(personajes.length > 0)
+        if(personajes.length > 0){
         document.getElementById("vacio").innerHTML = "";
-        else
+        document.getElementById("tabla").style.display = "";
+        }
+        else{
         document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
+        document.getElementById("tabla").style.display = "none";
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[personajes]);
 

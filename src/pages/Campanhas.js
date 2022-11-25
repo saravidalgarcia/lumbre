@@ -52,7 +52,7 @@ function Campanhas(){
    */
   function verCampanha(id) {
     localStorage.id_campanha = id;
-    window.location.href = "/campanha/ver-campanha";
+    window.location.href = "/campanha/ver";
   }
 
   /* --- FUNCIONES DE ORDENACIÓN DE CAMPAÑAS --- */
@@ -156,9 +156,9 @@ function Campanhas(){
           c.innerHTML = `
               <h4 id="titulo">${campanhas[i].titulo}</h4>
               <p>${campanhas[i].resumen}</p>
-              <br>
-              <p className="small">Creado: ${campanhas[i].creacion}</p>
-              <p className="small">Modificado: ${campanhas[i].modificacion}</p>
+              <br/>
+              <p class="small">Creado: ${campanhas[i].creacion}</p>
+              <p class="small">Modificado: ${campanhas[i].modificacion}</p>
           `;
           x.appendChild(c);
       }
@@ -179,11 +179,11 @@ function Campanhas(){
             <div className="menu-dropdown">
               <button className="boton-dropdown">Ordenar por</button>
               <div className="menu-dropdown-opciones">
-                  <button onClick={orderCampanhas('titulo-asc')}>Nombre</button>
-                  <button onClick={orderCampanhas('titulo-desc')}>Nombre (inverso)</button>
-                  <button onClick={orderCampanhas('modificacion')}>Última modificación</button>
-                  <button onClick={orderCampanhas('creacion-asc')}>Fecha de creación (más antiguo)</button>
-                  <button onClick={orderCampanhas('creacion-desc')}>Fecha de creación (más reciente)</button> 
+                  <button onClick={() => orderCampanhas('titulo-asc')}>Nombre</button>
+                  <button onClick={() => orderCampanhas('titulo-desc')}>Nombre (inverso)</button>
+                  <button onClick={() => orderCampanhas('modificacion')}>Última modificación</button>
+                  <button onClick={() => orderCampanhas('creacion-asc')}>Fecha de creación (más antiguo)</button>
+                  <button onClick={() => orderCampanhas('creacion-desc')}>Fecha de creación (más reciente)</button> 
               </div>
             </div>
             <p id="vacio" className="mensaje-noinfo">No hay nada que mostrar aquí todavía.</p>
