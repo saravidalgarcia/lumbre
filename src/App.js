@@ -14,6 +14,9 @@ import Contrasenha from './pages/Contrasenha';
 import CrearCampanha from './pages/campanha/CrearCampanha';
 import EditarCampanha from './pages/campanha/EditarCampanha';
 import VerCampanha from './pages/campanha/VerCampanha';
+import CrearSesion from './pages/sesion/CrearSesion';
+import EditarSesion from './pages/sesion/EditarSesion';
+import VerSesion from './pages/sesion/VerSesion';
 
 import './App.css';
 
@@ -33,6 +36,9 @@ function App() {
         <Route path="/campanha/crear" element={<CrearCampanha />} />
         <Route path="/campanha/editar" element={<EditarCampanha />} />
         <Route path="/campanha/ver" element={<VerCampanha />} />
+        <Route path="/sesion/crear" element={<CrearSesion />} />
+        <Route path="/sesion/editar" element={<EditarSesion />} />
+        <Route path="/sesion/ver" element={<VerSesion />} />
       </Routes>
   )
 }

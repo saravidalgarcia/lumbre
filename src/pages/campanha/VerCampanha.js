@@ -110,7 +110,7 @@ function VerCampanha(){
      */
     function verPersonaje(id) {
         localStorage.id_personaje = id;
-        window.location.href = "../personaje/ver-personaje.html";
+        window.location.href = "/personaje/ver";
     }
     
     /**
@@ -125,7 +125,7 @@ function VerCampanha(){
             document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al eliminar la campaña";
         }
         else {
-            window.location.href = "../campanhas.html";
+            window.location.href = "/campanhas";
         }
         }
     }
@@ -134,7 +134,7 @@ function VerCampanha(){
      * Redirecciona al usuario a la página de creación de sesión
      */
     function addSesion() {
-        window.location.href = "../sesion/crear.html";
+        window.location.href = "/sesion/crear";
     }
     
     /**
@@ -144,7 +144,7 @@ function VerCampanha(){
      */
     function verSesion(id) {
         localStorage.id_sesion = id;
-        window.location.href = "../sesion/ver-sesion.html";
+        window.location.href = "/sesion/ver";
     }
     
     /**
@@ -161,7 +161,7 @@ function VerCampanha(){
             document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al eliminar la sesión";
         }
         else {
-            window.location.href = "../campanha/ver-campanha.html";
+            window.location.href = "/campanha/ver";
         }
         }
     }

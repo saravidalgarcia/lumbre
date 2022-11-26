@@ -35,10 +35,14 @@ function Sesiones(){
     },[]);
 
     useEffect(() => {
-        if(sesiones.length > 0)
+        if(sesiones.length > 0){
         document.getElementById("vacio").innerHTML = "";
-        else
+        document.getElementById("filtros").display="";
+        }
+        else{
         document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
+        document.getElementById("filtros").display="none";
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[sesiones]);
 
@@ -121,7 +125,7 @@ function Sesiones(){
             <button title="Crear sesion" onClick={crearSesion}>Nueva</button>
           </section>
           <section id="sesiones" className="cuerpo-info">
-            <div className="filtros">
+            <div className="filtros" id="filtros">
                 <select className="filtro" onChange={filtrar} id="filtro-campanha" defaultValue="0">
                     <option value="0">Campaña</option>
                 </select>

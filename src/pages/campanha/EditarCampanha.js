@@ -63,7 +63,7 @@ function EditarCampanha(){
         <MenuPpal />
             <section className="info">
                 <section className="cabecera-info">
-                    <h3>Nueva campaña</h3>
+                    <h3>Editar campaña</h3>
                 </section>
                 <FormCampanha titulo={campanha.titulo} resumen={campanha.resumen} informacion={campanha.informacion} accion={actualizar}/>
             </section>

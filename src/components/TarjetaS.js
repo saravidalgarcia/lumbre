@@ -11,15 +11,15 @@ function TarjetaS({id, campanha, nombre, estado, fecha}){
     function verSesion(id, id_c) {
         localStorage.id_sesion = id;
         localStorage.id_campanha = id_c;
-        window.location.href = "/sesion/ver-sesion";
+        window.location.href = "/sesion/ver";
     }
 
     return(
-    <div className={`sesion campanha-${campanha.id} ${estado}`} title="Ver sesión" onclick = {verSesion(id, campanha.id)}>
+    <div className={`sesion campanha-${campanha.id} ${estado}`} title="Ver sesión" onClick = {() => verSesion(id, campanha.id)}>
         <h4 id="titulo">{nombre}</h4>
         <p>{campanha.titulo}</p>
-        {(estado === "Completada") ? "<p className='envoltorio'>Completada</p>" : "<br/>"}
-        <p class="small">Fecha: {fecha ? fecha.replace("T", " ") : "Sin fecha"}</p>
+        {(estado === "Completada") ? <p className='envoltorio'>Completada</p> : <br/>}
+        <p className="small">Fecha: {fecha ? fecha.replace("T", " ") : "Sin fecha"}</p>
     </div>
     );
 }
