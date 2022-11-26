@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FormCampanha({titulo, resumen, informacion, accion}){
+function FormCampanha({titulo, resumen, informacion, accion, boton}){
 
 
 
@@ -11,7 +11,7 @@ function FormCampanha({titulo, resumen, informacion, accion}){
                 <input type="text" id="titulo" name="titulo" placeholder="Título" defaultValue={titulo} required /><br />
                 <textarea id="resumen" placeholder="Resumen" rows="4" defaultValue={resumen} required></textarea><br />
                 <textarea id="informacion" placeholder="Información" defaultValue={informacion} rows="10"></textarea><br />
-                <input className="boton" title="Crear campaña" type="submit" value="Crear" />
+                <input className="boton" title="Crear campaña" type="submit" value={boton} />
             </form>
             <p id="mensaje-feedback" className="mensaje-feedback"></p>
         </section>

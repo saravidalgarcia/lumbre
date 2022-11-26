@@ -57,7 +57,7 @@ function CrearCampanha(){
                 <section className="cabecera-info">
                     <h3>Nueva campaña</h3>
                 </section>
-                <FormCampanha accion={crear}/>
+                <FormCampanha accion={crear} boton={"Crear"}/>
             </section>
         </main>
         <Footer />

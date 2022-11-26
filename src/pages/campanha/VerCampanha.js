@@ -59,7 +59,7 @@ function VerCampanha(){
      * Redirecciona al usuario a la página de edición de campaña
      */
     function editar() {
-        window.location.href = "/editar";
+        window.location.href = "/campanha/editar";
     }
     
     /**

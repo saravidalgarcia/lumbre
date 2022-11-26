@@ -7,7 +7,7 @@ import FormCampanha from '../../components/FormCampanha';
 
 function EditarCampanha(){
 
-    const [campanha, setCampanha] = useState(null); 
+    const [campanhas, setCampanhas] = useState([{titulo: "Título", resumen: "Resumen", creacion: "", modificacion: ""}]); 
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -22,7 +22,7 @@ function EditarCampanha(){
                 document.getElementById("menu-ppal-campanhas").classList.add("actual");
                 document.getElementById("username").innerHTML = localStorage.getItem("username");
                 let data = await getCampanha();
-                setCampanha(data);
+                setCampanhas([data]);
             }
           }
           fetchData().catch(console.error);       
@@ -65,7 +65,11 @@ function EditarCampanha(){
                 <section className="cabecera-info">
                     <h3>Editar campaña</h3>
                 </section>
-                <FormCampanha titulo={campanha.titulo} resumen={campanha.resumen} informacion={campanha.informacion} accion={actualizar}/>
+                { campanhas.map((campanha) =>
+                <FormCampanha key={campanha.titulo} titulo={campanha.titulo} resumen={campanha.resumen} informacion={campanha.informacion} boton={"Actualizar"} accion={actualizar} />
+                )  
+                }
+                
             </section>
         </main>
         <Footer />
