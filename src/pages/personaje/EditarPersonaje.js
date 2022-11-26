@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import { getPersonaje, actualizarPersonaje, getRazas } from '../../peticiones';
 import FormPersonaje from '../../components/FormPersonaje';
 
-function EditarPersonaje(){
+function EditarPersonaje(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [personajes, setPersonajes] = useState([{nombre:"", jugador:"", informacion:"", raza:{}, creacion:"", modificacion:""}]);
     const [razas, setRazas] = useState([]);

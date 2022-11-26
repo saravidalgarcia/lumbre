@@ -5,7 +5,11 @@ import MenuPpal from '../../components/MenuPpal';
 import FormCampanha from '../../components/FormCampanha';
 import { crearCampanha } from '../../peticiones';
 
-function CrearCampanha(){
+function CrearCampanha(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
+
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
      * la página de login

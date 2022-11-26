@@ -5,7 +5,10 @@ import MenuPpal from '../components/MenuPpal';
 import TarjetaS from '../components/TarjetaS';
 import { getSesiones, getCampanhas } from '../peticiones';
 
-function Sesiones(){
+function Sesiones(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [sesiones, setSesiones] = useState([]); 
 

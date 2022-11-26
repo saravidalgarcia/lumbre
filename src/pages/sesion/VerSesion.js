@@ -4,7 +4,10 @@ import Footer from '../../components/Footer';
 import MenuPpal from '../../components/MenuPpal';
 import { eliminarSesionCampanha, getSesion } from '../../peticiones';
 
-function VerSesion(){
+function VerSesion(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [sesion, setSesion] = useState({nombre: "Nombre", campanha:{}, creacion:"", modificacion:""}); 
 

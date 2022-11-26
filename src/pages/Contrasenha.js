@@ -4,7 +4,10 @@ import Cabecera from '../components/Cabecera';
 import Footer from '../components/Footer';
 import { actualizar } from '../peticiones';
 
-function Contrasenha(){
+function Contrasenha(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a

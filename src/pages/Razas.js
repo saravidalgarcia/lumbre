@@ -4,7 +4,10 @@ import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
 import { getRazas, eliminarRaza } from '../peticiones';
 
-function Razas(){
+function Razas(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [razas, setRazas] = useState([]); 
 

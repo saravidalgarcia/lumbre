@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import { getSesion, actualizarSesion } from '../../peticiones';
 import FormSesion from '../../components/FormSesion';
 
-function EditarSesion(){
+function EditarSesion(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [sesiones, setSesiones] = useState([{nombre: "Nombre", campanha:{}, creacion:"", modificacion:""}]);
 

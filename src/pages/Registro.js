@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 import { login, getListaUsuarios, registrar } from '../peticiones';
 
-function Registro(){
+function Registro(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [data, setData] = useState([]);     
 

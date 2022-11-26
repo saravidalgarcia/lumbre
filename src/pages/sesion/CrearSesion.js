@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import FormSesion from '../../components/FormSesion';
 import { crearSesion, getCampanha, getCampanhas } from '../../peticiones';
 
-function CrearSesion(){
+function CrearSesion(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [campanhas, setCampanhas] = useState([]); 
 

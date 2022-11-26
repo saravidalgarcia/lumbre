@@ -4,7 +4,10 @@ import Footer from '../../components/Footer';
 import MenuPpal from '../../components/MenuPpal';
 import { getRaza, eliminarRaza } from '../../peticiones';
 
-function VerRaza(){
+function VerRaza(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [raza, setRaza] = useState({denominacion: "", descripcion: "", creacion:"", modificacion:""}); 
 

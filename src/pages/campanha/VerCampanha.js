@@ -4,7 +4,10 @@ import Footer from '../../components/Footer';
 import MenuPpal from '../../components/MenuPpal';
 import { getCampanha, getPersonajes, addPersonajeCampanha, removePersonajeCampanha, eliminarCampanha, eliminarSesionCampanha } from '../../peticiones';
 
-function VerCampanha(){
+function VerCampanha(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [campanha, setCampanha] = useState({id: 0, titulo:"Título",resumen:"Resumen",creacion:"", modificacion:"", personajes:[]}); 
     const [sesiones, setSesiones] = useState([]);

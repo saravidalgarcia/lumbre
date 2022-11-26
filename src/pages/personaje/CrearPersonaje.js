@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import FormPersonaje from '../../components/FormPersonaje';
 import { crearPersonaje, getRazas } from '../../peticiones';
 
-function CrearPersonaje(){
+function CrearPersonaje(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [razas, setRazas] = useState([]); 
 

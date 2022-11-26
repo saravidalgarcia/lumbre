@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import { getRaza, actualizarRaza } from '../../peticiones';
 import FormRaza from '../../components/FormRaza';
 
-function EditarRaza(){
+function EditarRaza(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [razas, setRazas] = useState([{denominacion:"", descripcion:"", creacion: "", modificacion: ""}]); 
 

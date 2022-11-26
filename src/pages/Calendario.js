@@ -3,7 +3,10 @@ import Cabecera from '../components/Cabecera';
 import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
 
-function Calendario(){
+function Calendario(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     useEffect(() => {
         const script = document.createElement('script');

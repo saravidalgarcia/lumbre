@@ -29,28 +29,28 @@ import './App.css';
 function App() {
   return (
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contrasenha" element={<Contrasenha />} />
-        <Route path="/campanhas" element={<Campanhas />} />
-        <Route path="/sesiones" element={<Sesiones />} />
-        <Route path="/personajes" element={<Personajes />} />
-        <Route path="/razas" element={<Razas />} />
-        <Route path="/calendario" element={<Calendario />} />
-        <Route path="/campanha/crear" element={<CrearCampanha />} />
-        <Route path="/campanha/editar" element={<EditarCampanha />} />
-        <Route path="/campanha/ver" element={<VerCampanha />} />
-        <Route path="/sesion/crear" element={<CrearSesion />} />
-        <Route path="/sesion/editar" element={<EditarSesion />} />
-        <Route path="/sesion/ver" element={<VerSesion />} />
-        <Route path="/raza/crear" element={<CrearRaza />} />
-        <Route path="/raza/editar" element={<EditarRaza />} />
-        <Route path="/raza/ver" element={<VerRaza />} />
-        <Route path="/personaje/crear" element={<CrearPersonaje />} />
-        <Route path="/personaje/editar" element={<EditarPersonaje />} />
-        <Route path="/personaje/ver" element={<VerPersonaje />} />
+        <Route path="/" element={<Login title="Inicio"/>} />
+        <Route path="/login" element={<Login title="Inicio" />} />
+        <Route path="/registro" element={<Registro title="Registro" />} />
+        <Route path="/about" element={<About title="Información y Contacto" />} />
+        <Route path="/contrasenha" element={<Contrasenha title="Cambiar contraseña"/>} />
+        <Route path="/campanhas" element={<Campanhas title="Campañas" />} />
+        <Route path="/sesiones" element={<Sesiones title="Sesiones" />} />
+        <Route path="/personajes" element={<Personajes title="Personajes" />} />
+        <Route path="/razas" element={<Razas title="Razas" />} />
+        <Route path="/calendario" element={<Calendario title="Calendario" />} />
+        <Route path="/campanha/crear" element={<CrearCampanha title="Crear campaña" />} />
+        <Route path="/campanha/editar" element={<EditarCampanha title="Editar campaña" />} />
+        <Route path="/campanha/ver" element={<VerCampanha title="Ver campaña" />} />
+        <Route path="/sesion/crear" element={<CrearSesion title="Crear sesión" />} />
+        <Route path="/sesion/editar" element={<EditarSesion title="Editar sesión" />} />
+        <Route path="/sesion/ver" element={<VerSesion title="Ver sesión" />} />
+        <Route path="/raza/crear" element={<CrearRaza title="Crear raza" />} />
+        <Route path="/raza/editar" element={<EditarRaza title="Editar raza" />} />
+        <Route path="/raza/ver" element={<VerRaza title="Ver raza" />} />
+        <Route path="/personaje/crear" element={<CrearPersonaje title="Crear personaje" />} />
+        <Route path="/personaje/editar" element={<EditarPersonaje title="Editar personaje" />} />
+        <Route path="/personaje/ver" element={<VerPersonaje title="Ver personaje" />} />
       </Routes>
   )
 }

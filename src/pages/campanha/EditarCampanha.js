@@ -5,7 +5,10 @@ import MenuPpal from '../../components/MenuPpal';
 import { getCampanha, actualizarCampanha } from '../../peticiones';
 import FormCampanha from '../../components/FormCampanha';
 
-function EditarCampanha(){
+function EditarCampanha(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [campanhas, setCampanhas] = useState([{titulo: "Título", resumen: "Resumen", creacion: "", modificacion: ""}]); 
 

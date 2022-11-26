@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 import Cabecera from '../components/Cabecera';
 
-function About(){
+function About(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
+    
     /**
      * Se comprueba que el usuario esté autenticado
      */

@@ -5,7 +5,10 @@ import MenuPpal from '../components/MenuPpal';
 import TarjetaC from '../components/TarjetaC';
 import { getCampanhas } from '../peticiones';
 
-function Campanhas(){
+function Campanhas(props){
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
   const [campanhas, setCampanhas] = useState([]); 
 

@@ -4,7 +4,10 @@ import Footer from '../../components/Footer';
 import MenuPpal from '../../components/MenuPpal';
 import { getPersonaje, eliminarPersonaje } from '../../peticiones';
 
-function VerPersonaje(){
+function VerPersonaje(props){
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
 
     const [personaje, setPersonaje] = useState({imagen: "",nombre: "",raza:"",jugador:"",informacion:"", creacion:"", modificacion:""}); 
 
