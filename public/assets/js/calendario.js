@@ -1,5 +1,5 @@
 /**
- * Lumbre - Funciones de la página de calendario (calendario.html)
+ * Lumbre - Funciones de la página de calendario
  * 
  * @author Sara Vidal García
  */
@@ -9,15 +9,35 @@
  * la página de login
  * Si está autenticado, se recuperan sus sesiones y se crea un nuevo calendario
  */
-window.onload = async () => {
-  if (localStorage.getItem("token") == null)
-    window.location.replace("../index.html");
-  else {
-    document.getElementById("username").innerHTML = localStorage.getItem("username");
-    localStorage.removeItem("id_sesion");
-    sesiones = await getSesiones();
-    calendario = new Calendario();
-  }
+ if (localStorage.getItem("token") == null)
+ window.location.replace("/login");
+else {
+ document.getElementById("username").innerHTML = localStorage.getItem("username");
+ localStorage.removeItem("id_sesion");
+ document.getElementById("menu-ppal-calendario").classList.add("actual");
+ console.log("hola");
+ recuperarSesiones();
+}
+
+async function recuperarSesiones(){
+  sesiones = await getSesiones();
+  calendario = new Calendario();
+}
+
+/**
+ *  Hace una llamada a la API para recuperar las sesiones del usuario 
+ */
+async function getSesiones() {
+  const respuesta = await fetch('http://localhost:8080/lumbre/api/' + localStorage.username + '/sesiones', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.token
+    }
+  });
+  const data = await respuesta.json();
+  return data;
 }
 
 //Variables para el calendario, las sesiones y la información de sesiones por día
@@ -185,5 +205,5 @@ window.onclick = function (event) {
 function verSesion(idcamp, id) {
   localStorage.id_campanha = idcamp;
   localStorage.id_sesion = id;
-  window.location.href = "../sesion/ver-sesion.html";
+  window.location.href = "/sesion/ver";
 }
