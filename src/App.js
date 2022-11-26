@@ -17,6 +17,9 @@ import VerCampanha from './pages/campanha/VerCampanha';
 import CrearSesion from './pages/sesion/CrearSesion';
 import EditarSesion from './pages/sesion/EditarSesion';
 import VerSesion from './pages/sesion/VerSesion';
+import CrearRaza from './pages/raza/CrearRaza';
+import EditarRaza from './pages/raza/EditarRaza';
+import VerRaza from './pages/raza/VerRaza';
 
 import './App.css';
 
@@ -39,6 +42,9 @@ function App() {
         <Route path="/sesion/crear" element={<CrearSesion />} />
         <Route path="/sesion/editar" element={<EditarSesion />} />
         <Route path="/sesion/ver" element={<VerSesion />} />
+        <Route path="/raza/crear" element={<CrearRaza />} />
+        <Route path="/raza/editar" element={<EditarRaza />} />
+        <Route path="/raza/ver" element={<VerRaza />} />
       </Routes>
   )
 }

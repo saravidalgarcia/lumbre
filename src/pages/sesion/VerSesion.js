@@ -47,7 +47,7 @@ function VerSesion(){
                 document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al eliminar la sesión";
             }
             else {
-                window.location.href = "../campanha/ver-campanha.html";
+                window.location.href = "/sesiones";
             }
         }
     }

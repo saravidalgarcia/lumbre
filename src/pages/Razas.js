@@ -51,7 +51,7 @@ function Razas(){
      */
     function verRaza(id) {
         localStorage.id_raza = id;
-        window.location.href = "/raza/ver-raza";
+        window.location.href = "/raza/ver";
     }
 
     /**
