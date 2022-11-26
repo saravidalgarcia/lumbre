@@ -48,7 +48,7 @@ function FormSesion({nombre, campanhas, planificacion, fecha, resultados, boton,
                 </div>
                 <div id="contenedor-resultados"></div>
                 <br />
-                <input className="boton" title="Crear sesión" type="submit" value={boton} />
+                <input className="boton" title={boton + " sesión"} type="submit" value={boton} />
             </form>
             <p id="mensaje-feedback" className="mensaje-feedback"></p>
         </section>

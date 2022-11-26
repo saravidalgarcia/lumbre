@@ -55,7 +55,7 @@ function Personajes(){
      */
     function verPersonaje(id) {
         localStorage.id_personaje = id;
-        window.location.href = "/personaje/ver-personaje";
+        window.location.href = "/personaje/ver";
     }
 
     /**

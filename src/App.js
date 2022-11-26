@@ -20,6 +20,9 @@ import VerSesion from './pages/sesion/VerSesion';
 import CrearRaza from './pages/raza/CrearRaza';
 import EditarRaza from './pages/raza/EditarRaza';
 import VerRaza from './pages/raza/VerRaza';
+import CrearPersonaje from './pages/personaje/CrearPersonaje';
+import EditarPersonaje from './pages/personaje/EditarPersonaje';
+import VerPersonaje from './pages/personaje/VerPersonaje';
 
 import './App.css';
 
@@ -45,6 +48,9 @@ function App() {
         <Route path="/raza/crear" element={<CrearRaza />} />
         <Route path="/raza/editar" element={<EditarRaza />} />
         <Route path="/raza/ver" element={<VerRaza />} />
+        <Route path="/personaje/crear" element={<CrearPersonaje />} />
+        <Route path="/personaje/editar" element={<EditarPersonaje />} />
+        <Route path="/personaje/ver" element={<VerPersonaje />} />
       </Routes>
   )
 }

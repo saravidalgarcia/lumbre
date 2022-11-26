@@ -11,7 +11,7 @@ function VerRaza(){
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
      * la página de login.
-     * Si lo está, recupera la información de la sesión de la API
+     * Si lo está, recupera la información de la raza de la API
      */
     useEffect(() => {
         const fetchData = async () => {
