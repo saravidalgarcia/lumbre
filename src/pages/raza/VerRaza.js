@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cabecera from '../../components/Cabecera';
 import Footer from '../../components/Footer';
 import MenuPpal from '../../components/MenuPpal';
-import { getRaza, eliminarRaza } from '../../peticiones';
+import { getRaza, eliminarRaza, getPersonajes } from '../../peticiones';
 
 function VerRaza(props){
 
@@ -47,21 +47,47 @@ function VerRaza(props){
     }
 
     /**
-     * Solicita confirmación al usuario y, en caso afirmativo, llama a la
-     * función que hace la petición de borrado de raza a la API y
-     * procesa el resultado
+     * Comprueba si hay algún personaje con la raza recibida
+     * por parámetro asociada
+     * @param raza - El id de la raza 
+     * @param personajes - Los personajes del usuario
      */
-    async function eliminar() {
-        if (window.confirm("¿Seguro que quieres borrar esta raza?")) {
-            let resultado = await eliminarRaza(localStorage.id_raza);
-            if (resultado !== "OK") {
-                document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al eliminar la raza";
-            }
-            else {
-                window.location.href = "/razas";
+         function checkPersonajes(raza, personajes){
+            let tienePjs = false;
+            personajes.forEach(personaje => {
+                if(personaje.raza.id.toString() === raza.toString()){
+                    tienePjs = true;
+                }
+            });
+            return tienePjs;
+        }
+    
+        /**
+         * Comprueba que la raza se pueda borrar (que no existan personajes
+         * con esa raza asociada).
+         * Solicita confirmación al usuario y, en caso afirmativo, llama a la
+         * función que hace la petición de borrado de raza a la API y
+         * procesa el resultado
+         */
+        async function eliminar() {
+            let id = localStorage.id_raza;
+            let personajes = await getPersonajes();
+            let tienePjs = checkPersonajes(id,personajes);
+            if (tienePjs){
+                document.getElementById("mensaje-feedback").innerHTML = "No se puede borrar una raza con personajes asociados, elimine o cambie de raza a sus personajes primero.";
+                document.getElementById("mensaje-feedback").focus();
+            }else{
+                if (window.confirm("¿Seguro que quieres borrar esta raza?")) {
+                    let resultado = await eliminarRaza(id);
+                    if (resultado !== "OK") {
+                        document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al eliminar la raza";
+                    }
+                    else {
+                        window.location.href = "/razas";
+                    }
+                }
             }
         }
-    }
 
 
     

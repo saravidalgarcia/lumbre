@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cabecera from '../components/Cabecera';
 import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
-import { getRazas, eliminarRaza } from '../peticiones';
+import { getRazas, eliminarRaza, getPersonajes } from '../peticiones';
 
 function Razas(props){
 
@@ -58,19 +58,44 @@ function Razas(props){
     }
 
     /**
+     * Comprueba si hay algún personaje con la raza recibida
+     * por parámetro asociada
+     * @param raza - El id de la raza 
+     * @param personajes - Los personajes del usuario
+     */
+         function checkPersonajes(raza, personajes){
+            let tienePjs = false;
+            personajes.forEach(personaje => {
+                if(personaje.raza.id.toString() === raza.toString()){
+                    tienePjs = true;
+                }
+            });
+            return tienePjs;
+        }
+
+    /**
+     * Comprueba que la raza se pueda borrar (que no existan personajes
+     * con esa raza asociada).
      * Solicita confirmación al usuario y, en caso afirmativo, llama a la
      * función que hace la petición de borrado de raza a la API y
      * procesa el resultado
      * @param id
      */
     async function eliminar(id) {
-        if (window.confirm("¿Seguro que quieres borrar esta raza?")) {
-            let resultado = await eliminarRaza(id);
-            if (resultado !== "OK") {
-                document.getElementById("mensaje-error").innerHTML = "Se ha producido un error al eliminar la raza";
-            }
-            else {
-                window.location.href = "/razas";
+        let personajes = await getPersonajes();
+        let tienePjs = checkPersonajes(id,personajes);
+        if (tienePjs){
+            document.getElementById("mensaje-error").innerHTML = "No se puede borrar una raza con personajes asociados, elimine o cambie de raza a sus personajes primero.";
+            document.getElementById("mensaje-error").focus();
+        }else{
+            if (window.confirm("¿Seguro que quieres borrar esta raza?")) {
+                let resultado = await eliminarRaza(id);
+                if (resultado !== "OK") {
+                    document.getElementById("mensaje-error").innerHTML = "Se ha producido un error al eliminar la raza";
+                }
+                else {
+                    window.location.href = "/razas";
+                }
             }
         }
     }
@@ -183,8 +208,9 @@ function Razas(props){
             <section id="razas" className="cuerpo-info">
                 <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
                 <div className="personajes">
+                <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
             <input type="text" className="buscador" id="buscador" onKeyUp={() => buscarEnTabla([0, 1])} placeholder="Buscar..." title="Escribe un nombre"/>
-            <p className="mensaje orden-tabla" id="mensaje-error">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
+            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
             <table id="tabla">
                 <thead>
                     <tr>

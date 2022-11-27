@@ -187,8 +187,9 @@ function Personajes(props){
             <section id="personajes" className="cuerpo-info">
                 <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
                 <div className="personajes">
+                <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
             <input type="text" className="buscador" id="buscador" onKeyUp={() => {buscarEnTabla([1, 2, 3])}} placeholder="Buscar..." title="Escribe un nombre"/>
-            <p className="mensaje orden-tabla" id="mensaje-error">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
+            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
             <table id="tabla">
                 <thead>
                     <tr>

@@ -340,6 +340,7 @@ transform: translateX(26px);
     color: var(--font-color);
     padding: 5px;
     font-size: 0.9em;
+    font-weight: bold;
 }
 
 hr {
@@ -1133,6 +1134,10 @@ tbody tr:hover {
 
 hr.black {
     border-top: 1px solid black;
+}
+
+.black{
+    color:black;
 }
 
 .centrado {
