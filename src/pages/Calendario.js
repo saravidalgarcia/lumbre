@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cabecera from '../components/Cabecera';
 import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
+import { getSesiones } from '../peticiones';
 
 function Calendario(props){
 
@@ -10,16 +11,192 @@ function Calendario(props){
 
     useEffect(() => {
         const script = document.createElement('script');
-      
-        script.src = "assets/js/calendario.js";
-        script.async = true;
-      
+        script.innerHTML = `
+        function verSesion(idcamp, id) {
+            localStorage.id_campanha = idcamp;
+            localStorage.id_sesion = id;
+            window.location.href = "/sesion/ver";
+            }
+        `;
         document.body.appendChild(script);
-      
         return () => {
           document.body.removeChild(script);
         }
       }, []);
+
+    const [sesiones, setSesiones] = useState([]);
+
+    /**
+     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
+     * la página de login
+     * Si está autenticado, se recuperan sus sesiones y se crea un nuevo calendario
+     */
+    useEffect(() => {
+        const fetchData = async () => {
+            if (localStorage.getItem("token") == null)
+              window.location.replace("/login");
+            else {
+                document.getElementById("username").innerHTML = localStorage.getItem("username");
+                localStorage.removeItem("id_sesion");
+                document.getElementById("menu-ppal-calendario").classList.add("actual");
+                setSesiones(await getSesiones());
+            }
+        }
+        fetchData().catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
+
+      useEffect(() => {
+        crearCalendario();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[sesiones]);
+
+
+    //Variables del calendario
+    const dias = ['Lun','Mar','Mie','Jue','Vie','Sab','Dom'];
+    const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    let vista,mes,anterior,siguiente, sesionesdia, mesanterior, messiguiente;
+
+    /**
+     * Recibe una fecha y crea el calendario
+     * @param fecha 
+     */
+    function crearCalendario(fecha){
+    if (!(fecha instanceof Date)) {
+        fecha = new Date();
+    }
+    vista = document.getElementById("dias");
+    mes = document.getElementById("mes");
+    anterior = document.getElementById("mes-anterior");
+    siguiente = document.getElementById("mes-siguiente");
+    mostrar(fecha);
+    /**
+     * Listeners para mostrar el mes anterior o el siguiente si el usuario pulsa
+     * en el botón pertinente
+     */
+    mesanterior = new Date();
+    messiguiente = new Date();
+    mesanterior.setMonth(fecha.getMonth() - 1);
+    messiguiente.setMonth(fecha.getMonth() + 1);
+    mesanterior.setDate(1);
+    messiguiente.setDate(1);
+    anterior.addEventListener("click", () => mostrar(mesanterior));
+    siguiente.addEventListener("click", () => mostrar(messiguiente));
+    }
+
+    /**
+     * Muestra el calendario relativo al mes recibido en la fecha
+     * @param fecha 
+     */
+    function mostrar(fecha){
+    //Obtiene los datos clave para la generación de la vista del calendario
+    if (!fecha || (!(fecha instanceof Date))) fecha = new Date();
+    var ahora = new Date(fecha),
+        y = ahora.getFullYear(),
+        m = ahora.getMonth();
+    var hoy = new Date();
+    var ultimoD = new Date(y, m + 1, 0).getDate();
+    var primerD = new Date(y, m, 1).getDay();
+    var anteriorM = new Date(y, ahora.getMonth() - 1, 1);
+    var siguienteM = new Date(y, ahora.getMonth() + 1, 1);
+
+    mesanterior = anteriorM;
+    messiguiente = siguienteM;
+    
+    //Resetea el calendario
+    while (vista.firstChild) {
+        vista.removeChild(vista.firstChild);
+    }
+    
+    //Introduce los huecos necesarios antes del primer día del mes
+    for (var x = 0; x < primerD - 1; x++) {
+        var hueco = document.createElement("div");
+        hueco.className = "hueco";
+        vista.appendChild(hueco);
+    }
+    
+    //Bucle que recorre todos los días del mes
+    for (var z = 1; z <= ultimoD; z++) {
+        var _date = new Date(y, m, z);
+        var dia = document.createElement("div");
+        dia.className = "dia";
+        dia.textContent = z;
+        dia.setAttribute("data-date", _date);
+        //Comprueba si es el día actual
+        if (z === hoy.getDate() && y === hoy.getFullYear() && m === hoy.getMonth()) {
+        dia.classList.add("hoy");
+        }
+        //Comprueba si tiene sesiones asociadas
+        if (checkSesiones(dia)) {
+        let x = sesionesdia;
+        dia.classList.add("tiene-sesiones");
+        dia.onclick = function () { mostrarSesiones(x); };
+        }
+        //Añade el día al calendario
+        vista.appendChild(dia);
+    }
+    
+    //Cubre la información del mes actual, anterior y siguiente
+    mes.textContent = meses[ahora.getMonth()] + " " + ahora.getFullYear();
+    mes.setAttribute("data-date", ahora);
+    anterior.textContent = "< " + meses[anteriorM.getMonth()];
+    anterior.setAttribute("data-date", anteriorM);
+    siguiente.textContent = meses[siguienteM.getMonth()] + " >";
+    siguiente.setAttribute("data-date", siguienteM);
+    }
+
+
+    /**
+     * Recibe un día y comprueba si tiene sesiones asociadas
+     * @param dia 
+     */
+    function checkSesiones(dia) {
+    let fecha = new Date(dia.getAttribute("data-date"));
+    let f = fecha.getFullYear() + "-" + ((fecha.getMonth() + 1 > 9) ? (fecha.getMonth() + 1) : ("0" + (fecha.getMonth() + 1))) + "-" + ((fecha.getDate() > 9) ? fecha.getDate() : ("0" + fecha.getDate()));
+    let tiene = false;
+    sesionesdia = `<h3>Sesiones para el ${f}:</h3>`;
+    if (sesiones === null || sesiones.length === 0) return false;
+    else{
+    for (let i = 0; i < sesiones.length; i++) {
+        if (sesiones[i].fecha != null) {
+        if (sesiones[i].fecha.includes(f)) {
+            tiene = true;
+            sesionesdia += ("<p><b>" + sesiones[i].fecha.substring(11) + "h&nbsp;&nbsp;</b> " + sesiones[i].nombre + " (" + sesiones[i].campanha.titulo + ")<button onclick='verSesion(" + sesiones[i].campanha.id + "," + sesiones[i].id + ")' title='Ver sesión'>Ver</button></p>");
+
+            //sesionesdia += `<p><b> ${sesiones[i].fecha.substring(11)}h&nbsp;&nbsp;</b>${sesiones[i].nombre} (${sesiones[i].campanha.titulo}) <button onclick=${verSesion(sesiones[i].campanha.idsesiones[i].id)} title='Ver sesión'>Ver</button></p>`;
+        }
+        }
+    }
+    return tiene;
+    }
+    }
+
+
+    /* --- VENTANA MODAL --- */
+
+    //Variables con los elementos del modal
+    var modal = document.getElementById("contenedor-sesiones-dia");
+
+    /**
+     * Muestra la ventana modal con la información recibida
+     * @param info 
+     */
+    function mostrarSesiones(info) {
+    modal.style.display = "block";
+    document.getElementById("info-sesiones-dia").innerHTML = info;
+    }
+
+    /**
+     * Oculta la ventana modal si se pulsa en la zona oscurecida de la ventana 
+     */
+    window.onClick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+    }
+
+    
+
 
     return(
     <>
@@ -38,13 +215,9 @@ function Calendario(props){
                             <span className="mes-actual" id="mes"></span>
                             <span className="mes-siguiente" id="mes-siguiente"></span>
                         </div>
-                        <div className="cal-dia">Lun</div>
-                        <div className="cal-dia">Mar</div>
-                        <div className="cal-dia">Mie</div>
-                        <div className="cal-dia">Jue</div>
-                        <div className="cal-dia">Vie</div>
-                        <div className="cal-dia">Sab</div>
-                        <div className="cal-dia">Dom</div>
+                        {
+                            dias.map((dia) => <div key={dia} className="cal-dia">{dia}</div>)
+                        }
                         <div className="vista-calendario" id="dias">
                         </div>
                     </div>
@@ -55,7 +228,7 @@ function Calendario(props){
         <Footer />
         <div id="contenedor-sesiones-dia" className="modal">
             <div id="sesiones-dia" className="sesiones-dia">
-            <span className="close">&times;</span>
+            <span className="close" onClick={() => modal.style.display = "none"}>&times;</span>
             <div id="info-sesiones-dia"></div>
             </div>  
         </div>
