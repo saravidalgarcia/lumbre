@@ -110,7 +110,7 @@ export async function removePersonajeCampanha(id) {
         headers: headers()
     });
     if (respuesta.status === 200) {
-        window.location.href = "./ver-campanha.html";
+        window.location.href = "./ver";
     } else {
         document.getElementById("mensaje-error").innerHTML = "No se ha podido quitar el personaje";
     }
@@ -122,7 +122,7 @@ export async function addPersonajeCampanha(id) {
         headers: headers()
     });
     if (respuesta.status === 200) {
-        window.location.href = "./ver-campanha.html";
+        window.location.href = "./ver";
     } else {
         document.getElementById("mensaje-error").innerHTML = "No se ha podido añadir el personaje.";
     }

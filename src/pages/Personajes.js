@@ -51,11 +51,11 @@ function Personajes(props) {
     useEffect(() => {
         if (personajes.length > 0) {
             document.getElementById("vacio").innerHTML = "";
-            document.getElementById("tabla").style.display = "";
+            document.getElementById("contenedor-personajes").style.display = "";
         }
         else {
             document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
-            document.getElementById("tabla").style.display = "none";
+            document.getElementById("contenedor-personajes").style.display = "none";
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [personajes]);
@@ -180,7 +180,7 @@ function Personajes(props) {
                 }
             }
         }
-        for (i = 1; i < (tabla.rows.length - 1); i++) {
+        for (i = 1; i < (tabla.rows.length); i++) {
             if (i % 2 === 0)
                 tabla.rows[i].style.backgroundColor = "var(--font-color-soft)";
             else
@@ -203,7 +203,7 @@ function Personajes(props) {
                     </section>
                     <section id="personajes" className="cuerpo-info">
                         <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
-                        <div className="personajes">
+                        <div className="personajes" id="contenedor-personajes">
                             <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
                             <input type="text" className="buscador" id="buscador" onKeyUp={() => { buscarEnTabla([1, 2, 3]) }} placeholder="Buscar..." title="Escribe un nombre" />
                             <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>

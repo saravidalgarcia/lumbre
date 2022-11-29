@@ -55,11 +55,11 @@ function Sesiones(props) {
     useEffect(() => {
         if (sesiones.length > 0) {
             document.getElementById("vacio").innerHTML = "";
-            document.getElementById("filtros").display = "";
+            document.getElementById("filtros").style.display = "";
         }
         else {
             document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
-            document.getElementById("filtros").display = "none";
+            document.getElementById("filtros").style.display = "none";
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sesiones]);
@@ -123,7 +123,7 @@ function Sesiones(props) {
                 contador++;
             }
         }
-        let p = document.getElementById("mensaje-sin-sesiones");
+        let p = document.getElementById("vacio");
         if (contador === sesiones.length) {
             p.innerHTML = "No hay sesiones disponibles.";
         }

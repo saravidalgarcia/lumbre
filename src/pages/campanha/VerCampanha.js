@@ -39,7 +39,6 @@ function VerCampanha(props) {
                 let data = await getCampanha();
                 setCampanha(data);
                 setSesiones(data.sesiones);
-                cubrirDesplegable();
             }
         }
         fetchData().catch(console.error);
@@ -74,6 +73,7 @@ function VerCampanha(props) {
             document.getElementById("mensaje-sin-personajes").innerHTML = "No hay personajes asociados a esta campaña.";
             document.getElementById("tabla-personajes").style.display = "none";
         }
+        cubrirDesplegable();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [campanha]);
 
@@ -91,9 +91,11 @@ function VerCampanha(props) {
     const cubrirDesplegable = async () => {
         let pc = campanha.personajes; //Personajes ya asociados
         let personajes = await getPersonajes();
-        if (personajes.length > pc.length) {
-            let select = document.getElementById("add-personaje");
+        let select = document.getElementById("add-personaje");
+        while (select.firstChild) {
             select.removeChild(select.firstChild);
+        }
+        if (personajes.length > pc.length) {
             for (let i = 0; i < personajes.length; i++) {
                 let repetido = false;
                 for (let j = 0; j < pc.length; j++) {
@@ -109,6 +111,13 @@ function VerCampanha(props) {
                     select.appendChild(option);
                 }
             }
+        }
+        else{
+            let option = document.createElement("option");
+            option.value = 0;
+            option.innerText = "No hay personajes disponibles";
+            option.id = "opcion-defecto";
+            select.appendChild(option);
         }
     }
 

@@ -201,7 +201,7 @@ function Razas(props) {
                 }
             }
         }
-        for (i = 1; i < (tabla.rows.length - 1); i++) {
+        for (i = 1; i < (tabla.rows.length); i++) {
             if (i % 2 === 0)
                 tabla.rows[i].style.backgroundColor = "var(--font-color-soft)";
             else
