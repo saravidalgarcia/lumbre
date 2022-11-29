@@ -60,7 +60,7 @@ function Login(props) {
                             <form onSubmit={enviar}>
                                 <input type="text" id="username" name="username" placeholder="Nombre de usuario" required /><br />
                                 <input type="password" id="passwd" name="passwd" placeholder="Contraseña" required /><br />
-                                <input className="boton" title="Iniciar sesión" type="submit" defaultValue="Iniciar sesión" />
+                                <input className="boton" title="Iniciar sesión" type="submit" value="Iniciar sesión" />
                             </form>
                             <p id="mensaje-feedback" className="mensaje-feedback" />
                         </section>
