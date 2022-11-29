@@ -4,12 +4,23 @@ import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
 import { getPersonajes, eliminarPersonaje } from '../peticiones';
 
-function Personajes(props){
+/**
+ * Componente que representa la interfaz de visualización de personajes - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function Personajes(props) {
 
+    /**
+     * Se almacenan los personajes del usuario
+     */
+    const [personajes, setPersonajes] = useState([]);
+
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
-
-    const [personajes, setPersonajes] = useState([]); 
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -30,24 +41,29 @@ function Personajes(props){
             }
         }
         fetchData().catch(console.error);
-    },[]);
+    }, []);
 
+    /**
+     * Cuando se actualizan los personajes, se determina si hay que
+     * mostrar la tabla con personajes o el mensaje que informa de que
+     * no hay personajes
+     */
     useEffect(() => {
-        if(personajes.length > 0){
-        document.getElementById("vacio").innerHTML = "";
-        document.getElementById("tabla").style.display = "";
+        if (personajes.length > 0) {
+            document.getElementById("vacio").innerHTML = "";
+            document.getElementById("tabla").style.display = "";
         }
-        else{
-        document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
-        document.getElementById("tabla").style.display = "none";
+        else {
+            document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
+            document.getElementById("tabla").style.display = "none";
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[personajes]);
+    }, [personajes]);
 
     /**
      * Redirecciona al usuario a la página de creación de personaje
      */
-    function crearPersonaje() {
+    const crearPersonaje = () => {
         window.location.href = "/personaje/crear";
     }
 
@@ -56,7 +72,7 @@ function Personajes(props){
      * con el id recibido
      * @param id
      */
-    function verPersonaje(id) {
+    const verPersonaje = (id) => {
         localStorage.id_personaje = id;
         window.location.href = "/personaje/ver";
     }
@@ -67,15 +83,13 @@ function Personajes(props){
      * procesa el resultado
      * @param id
      */
-    async function eliminar(id) {
+    const eliminar = async (id) => {
         if (window.confirm("¿Seguro que quieres borrar este personaje?")) {
             let resultado = await eliminarPersonaje(id);
-            if (resultado !== "OK") {
+            if (resultado !== "OK")
                 document.getElementById("mensaje-error").innerHTML = "Se ha producido un error al eliminar el personaje";
-            }
-            else {
+            else
                 window.location.href = "/personajes";
-            }
         }
     }
 
@@ -85,7 +99,7 @@ function Personajes(props){
      * parámetro columnas
      * @param columnas - Array con los números de columna filtrables
      */
-    function buscarEnTabla(columnas) {
+    const buscarEnTabla = (columnas) => {
         var busqueda, filtro, tabla, tr, td, i, texto;
         busqueda = document.getElementById("buscador");
         filtro = busqueda.value.toUpperCase();
@@ -94,9 +108,9 @@ function Personajes(props){
         //Recorre las filas de la tabla
         let contador = 0;
         for (i = 0; i < tr.length; i++) {
-        //Para cada fila, toma el valor de las columnas filtrables
-        for(let j = 0; j < columnas.length; j++){
-            td = tr[i].getElementsByTagName("td")[columnas[j]];
+            //Para cada fila, toma el valor de las columnas filtrables
+            for (let j = 0; j < columnas.length; j++) {
+                td = tr[i].getElementsByTagName("td")[columnas[j]];
                 if (td) {
                     texto = td.textContent || td.innerText;
                     //Oculta las filas en las que el valor de columna no coindica con el filtro
@@ -113,16 +127,16 @@ function Personajes(props){
                         tr[i].style.backgroundColor = "";
                     }
                 }
-            } 
+            }
         }
     }
-    
+
     /**
      * Ordena las filas de la tabla alfabéticamente por la columna
      * que se indique en el parámetro n.
      * @param n - La columna por la que se ordena
      */
-     function ordenarTabla(n) {
+    const ordenarTabla = (n) => {
         var tabla, filas, cambiar, i, x, y, hacerCambio, dir, contador = 0;
         tabla = document.getElementById("tabla");
         cambiar = true;
@@ -161,8 +175,8 @@ function Personajes(props){
                 //Si la tabla ya estaba ordenada ascendentemente, entonces se
                 //reordena descendentemente
                 if (contador === 0 && dir === "asc") {
-                dir = "desc";
-                cambiar = true;
+                    dir = "desc";
+                    cambiar = true;
                 }
             }
         }
@@ -174,60 +188,59 @@ function Personajes(props){
         }
     }
 
-    return(
-    <>
-        <Cabecera />
-        <main className="contenido">
-        <MenuPpal />
-        <section className="info">
-            <section className="cabecera-info">
-                <h1>Mis personajes</h1>
-                <button onClick={crearPersonaje} title="Crear personaje">Nuevo</button>
-            </section>
-            <section id="personajes" className="cuerpo-info">
-                <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
-                <div className="personajes">
-                <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
-            <input type="text" className="buscador" id="buscador" onKeyUp={() => {buscarEnTabla([1, 2, 3])}} placeholder="Buscar..." title="Escribe un nombre"/>
-            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
-            <table id="tabla">
-                <thead>
-                    <tr>
-                        <th scope="col">Imagen</th>
-                        <th onClick={() => ordenarTabla(1)} scope="col">Nombre</th>
-                        <th onClick={() => ordenarTabla(2)} scope="col">Raza</th>
-                        <th onClick={() => ordenarTabla(3)} scope="col">Jugador</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody id="filas">
-                {
-                    personajes.map((p) =>
-                        <tr key = {p.id}>
-                            <td className="t-personaje t-imagen">
-                                <img id="imagen" alt={`Imagen de ${p.nombre}`} src={`data:image/jpeg;base64,${p.imagen}`} style={{width: "50px", height: "50px"}}/>
-                            </td>
-                            <td className="t-personaje">{p.nombre}</td>
-                            <td className="t-personaje">{p.raza.denominacion}</td>
-                            <td className="t-personaje">{p.jugador ? p.jugador : "No asignado"}</td>
-                            <td className="t-personaje t-opciones">
-                                <button className="b-opcion-tabla" onClick={() => verPersonaje(p.id)} title="Ver personaje">Ver</button>
-                                <button className="b-opcion-tabla" onClick={() => eliminar(p.id)} title="Eliminar personaje">Eliminar</button>
-                            </td>
-                        </tr>
-                    )
-                }   
-                </tbody>
-            </table>
-        </div>
-        </section>
-        </section>
-            
-          
-      </main>
-      <Footer />
-    </>
-  );
+    /**
+     * Contenido de la interfaz de visualización de personajes
+     */
+    return (
+        <>
+            <Cabecera />
+            <main className="contenido">
+                <MenuPpal />
+                <section className="info">
+                    <section className="cabecera-info">
+                        <h1>Mis personajes</h1>
+                        <button onClick={crearPersonaje} title="Crear personaje">Nuevo</button>
+                    </section>
+                    <section id="personajes" className="cuerpo-info">
+                        <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
+                        <div className="personajes">
+                            <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
+                            <input type="text" className="buscador" id="buscador" onKeyUp={() => { buscarEnTabla([1, 2, 3]) }} placeholder="Buscar..." title="Escribe un nombre" />
+                            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
+                            <table id="tabla">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Imagen</th>
+                                        <th onClick={() => ordenarTabla(1)} scope="col">Nombre</th>
+                                        <th onClick={() => ordenarTabla(2)} scope="col">Raza</th>
+                                        <th onClick={() => ordenarTabla(3)} scope="col">Jugador</th>
+                                        <th scope="col">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filas">
+                                    {personajes.map((p) =>
+                                        <tr key={p.id}>
+                                            <td className="t-personaje t-imagen">
+                                                <img id="imagen" alt={`Imagen de ${p.nombre}`} src={`data:image/jpeg;base64,${p.imagen}`} style={{ width: "50px", height: "50px" }} />
+                                            </td>
+                                            <td className="t-personaje">{p.nombre}</td>
+                                            <td className="t-personaje">{p.raza.denominacion}</td>
+                                            <td className="t-personaje">{p.jugador ? p.jugador : "No asignado"}</td>
+                                            <td className="t-personaje t-opciones">
+                                                <button className="b-opcion-tabla" onClick={() => verPersonaje(p.id)} title="Ver personaje">Ver</button>
+                                                <button className="b-opcion-tabla" onClick={() => eliminar(p.id)} title="Eliminar personaje">Eliminar</button>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </main>
+            <Footer />
+        </>
+    );
 }
 
 export default Personajes;

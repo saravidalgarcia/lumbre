@@ -5,12 +5,23 @@ import MenuPpal from '../components/MenuPpal';
 import TarjetaS from '../components/TarjetaS';
 import { getSesiones, getCampanhas } from '../peticiones';
 
-function Sesiones(props){
+/**
+ * Componente que representa la interfaz de visualización de sesiones - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function Sesiones(props) {
 
+    /**
+     * Almacena las sesiones del usuario
+     */
+    const [sesiones, setSesiones] = useState([]);
+
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
-
-    const [sesiones, setSesiones] = useState([]); 
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -19,49 +30,53 @@ function Sesiones(props){
      */
     useEffect(() => {
         const fetchData = async () => {
-        if (localStorage.getItem("token") == null)
-            window.location.replace("/login");
-        else {
-            document.getElementById("username").innerHTML = localStorage.getItem("username");
-            localStorage.removeItem("id_sesion");
-            localStorage.removeItem("id_campanha");
-            document.getElementById("menu-ppal-sesiones").classList.add("actual");
-            let data = await getSesiones();
-            if (data.length > 0) {
-                setSesiones(data);
-                let campanhas = await getCampanhas();
-                setCampanhas(campanhas);
+            if (localStorage.getItem("token") == null)
+                window.location.replace("/login");
+            else {
+                document.getElementById("username").innerHTML = localStorage.getItem("username");
+                localStorage.removeItem("id_sesion");
+                localStorage.removeItem("id_campanha");
+                document.getElementById("menu-ppal-sesiones").classList.add("actual");
+                let data = await getSesiones();
+                if (data.length > 0) {
+                    setSesiones(data);
+                    let campanhas = await getCampanhas();
+                    setCampanhas(campanhas);
+                }
             }
         }
-        }
         fetchData().catch(console.error);
-    },[]);
+    }, []);
 
+    /**
+     * Cada vez que se actualizan las sesiones, se muestran u ocultan
+     * los filtros y mensajes
+     */
     useEffect(() => {
-        if(sesiones.length > 0){
-        document.getElementById("vacio").innerHTML = "";
-        document.getElementById("filtros").display="";
+        if (sesiones.length > 0) {
+            document.getElementById("vacio").innerHTML = "";
+            document.getElementById("filtros").display = "";
         }
-        else{
-        document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
-        document.getElementById("filtros").display="none";
+        else {
+            document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
+            document.getElementById("filtros").display = "none";
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[sesiones]);
+    }, [sesiones]);
 
     /**
      * Redirecciona al usuario a la página de creación de sesión
      */
-    function crearSesion() {
+    const crearSesion = () => {
         window.location.href = "/sesion/crear";
     }
 
     /**
      * Establece los nombres de las campañas con sesiones en el desplegable para
-     * filtrar por campaña, a partir de los datos recibidos de la API
+     * filtrar por campaña a partir de los datos recibidos de la API
      * @param campanhas  
      */
-    function setCampanhas(campanhas) {
+    const setCampanhas = (campanhas) => {
         if (campanhas.length === 0) return;
         const filtro = document.getElementById("filtro-campanha");
         for (let i = 0; i < campanhas.length; i++) {
@@ -76,10 +91,10 @@ function Sesiones(props){
      * Filtra las sesiones mostradas según los valores seleccionados en los desplegables
      * de filtro por campaña y estado
      */
-    function filtrar() {
+    const filtrar = () => {
         let div = document.getElementById("contenedor-sesiones");
-        let f1 = document.getElementById("filtro-campanha").value;
-        let f2 = document.getElementById("filtro-estado").value;
+        let f1 = document.getElementById("filtro-campanha").value; //Filtro por campaña
+        let f2 = document.getElementById("filtro-estado").value; //Filtro por estado
         let sesiones = div.children;
         let contador = 0;
         for (var i = 0; i < sesiones.length; i++) {
@@ -117,39 +132,42 @@ function Sesiones(props){
         }
     }
 
-    return(
-    <>
-        <Cabecera />
-        <main className="contenido">
-        <MenuPpal />
-        <section className="info">
-          <section className="cabecera-info">
-            <h1>Mis Sesiones</h1>
-            <button title="Crear sesion" onClick={crearSesion}>Nueva</button>
-          </section>
-          <section id="sesiones" className="cuerpo-info">
-            <div className="filtros" id="filtros">
-                <select className="filtro" onChange={filtrar} id="filtro-campanha" defaultValue="0">
-                    <option value="0">Campaña</option>
-                </select>
-                <select className="filtro" onChange={filtrar} id="filtro-estado" defaultValue="0">
-                    <option value="0">Estado</option>
-                    <option value="Prevista">Prevista</option>
-                    <option value="Completada">Completada</option>
-                </select>
-            </div>
-            <p id="vacio" className="mensaje-noinfo">No hay nada que mostrar aquí todavía.</p>
-            <div className="sesiones" id="contenedor-sesiones">
-            {
-            sesiones.map((s) => <TarjetaS key={s.id} id={s.id} campanha={s.campanha} nombre={s.nombre} estado={s.estado} fecha={s.fecha}/>)
-            }
-            </div>
-          </section>
-        </section>
-      </main>
-      <Footer />
-    </>
-  );
+    /**
+     * Contenido de la interfaz de visualización de sesiones
+     */
+    return (
+        <>
+            <Cabecera />
+            <main className="contenido">
+                <MenuPpal />
+                <section className="info">
+                    <section className="cabecera-info">
+                        <h1>Mis Sesiones</h1>
+                        <button title="Crear sesion" onClick={crearSesion}>Nueva</button>
+                    </section>
+                    <section id="sesiones" className="cuerpo-info">
+                        <div className="filtros" id="filtros">
+                            <select className="filtro" onChange={filtrar} id="filtro-campanha" defaultValue="0">
+                                <option value="0">Campaña</option>
+                            </select>
+                            <select className="filtro" onChange={filtrar} id="filtro-estado" defaultValue="0">
+                                <option value="0">Estado</option>
+                                <option value="Prevista">Prevista</option>
+                                <option value="Completada">Completada</option>
+                            </select>
+                        </div>
+                        <p id="vacio" className="mensaje-noinfo">No hay nada que mostrar aquí todavía.</p>
+                        <div className="sesiones" id="contenedor-sesiones">
+                            {sesiones.map((s) => 
+                                <TarjetaS key={s.id} id={s.id} campanha={s.campanha} nombre={s.nombre} estado={s.estado} fecha={s.fecha} />
+                            )}
+                        </div>
+                    </section>
+                </section>
+            </main>
+            <Footer />
+        </>
+    );
 }
 
 export default Sesiones;

@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-function MenuPpal(){
+/**
+ * Componente que representa el menú principal - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function MenuPpal() {
 
     /**
      * Obtiene un número aleatorio entre 1 y 20 lo muestra en el dado
@@ -10,13 +15,16 @@ function MenuPpal(){
         let resultado = document.getElementById("resultado-dado");
         let tirada = Math.floor(Math.random() * 20) + 1;
         if (tirada === 1 || tirada === 20)
-        resultado.classList.add("critico");
+            resultado.classList.add("critico");
         else
-        resultado.classList.remove("critico");
+            resultado.classList.remove("critico");
         resultado.innerHTML = tirada;
     }
 
-    return(
+    /**
+     * Contenido del menú principal
+     */
+    return (
         <section className="menu-ppal">
             <Link to="/campanhas" id="menu-ppal-campanhas" title="Mis campañas" target="_self">
                 <img src="http://localhost:3000/assets/img/icon_campanha.png" alt="Icono de campaña" />
@@ -42,7 +50,7 @@ function MenuPpal(){
                 <img id="dado" src="http://localhost:3000/assets/img/dado.png" title="Tirar dado" alt="Imagen de un dado de 20 caras" onClick={tirarDado} />
                 <p id="resultado-dado" className="critico" onClick={tirarDado}>20</p>
             </div>
-      </section>
+        </section>
     );
 }
 

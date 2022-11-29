@@ -1,7 +1,16 @@
 import React from 'react';
 
-function FormSesion({nombre, campanhas, planificacion, fecha, resultados, boton, accion}){
+/**
+ * Componente que representa el formulario para crear/editar sesiones - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function FormSesion({ nombre, campanhas, planificacion, fecha, resultados, boton, accion }) {
 
+    /**
+     * Comprueba si la checkbox de resultados está marcada y, en caso afirmativo,
+     * muestra el textarea para introducir resultados
+     */
     const verResultados = e => {
         if (e.target.checked) {
             let resultado = document.createElement("textarea");
@@ -15,45 +24,42 @@ function FormSesion({nombre, campanhas, planificacion, fecha, resultados, boton,
             document.getElementById("contenedor-resultados").removeChild(document.getElementById("resultados"));
         }
     };
-    
-    return(
-        <div className="div-form new-form">
-        <section>
-            <form onSubmit={accion}>
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre" defaultValue={nombre} required /><br />
-                <div id="contenedor-campanha">
-                    <label htmlFor="campanha">Campaña: </label>
-                    <select className="selector-campanha" name="campanha" id="campanha" required>
-                    {
-                        campanhas.map((c) =>
-                            <option key={c.id + 1} value={c.id}>{c.titulo}</option>
-                        )
-                    }
-                    </select>
-                </div>
-                <br/>
-                <textarea className="con-espacios" id="planificacion" placeholder="Desarrollo previsto de la sesión" rows="10" defaultValue={planificacion}></textarea><br />
-                <div>
-                    <label htmlFor="fecha">Fecha y hora: </label>
-                    <input className="fecha-formulario" type="datetime-local" id="fecha" name="fecha" defaultValue={fecha}/><br />
-                </div>
-                <hr/>
-                <div className="sesion-completada" id="completada">
-                    <label className="checkbox" htmlFor="fecha">¿Sesión completada?</label>
-                    <label className="switch">
-                        <input id="estado" type="checkbox" name="estado" onChange={verResultados}/>
-                        <span className="slider"></span>
-                    </label>
-                
-                </div>
-                <div id="contenedor-resultados"></div>
-                <br />
-                <input className="boton" title={boton + " sesión"} type="submit" value={boton} />
-            </form>
-            <p id="mensaje-feedback" className="mensaje-feedback"></p>
-        </section>
-    </div>
 
+    /**
+     * Contenido del formulario de sesión
+     */
+    return (
+        <div className="div-form new-form">
+            <section>
+                <form onSubmit={accion}>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" defaultValue={nombre} required /><br />
+                    <div id="contenedor-campanha">
+                        <label htmlFor="campanha">Campaña: </label>
+                        <select className="selector-campanha" name="campanha" id="campanha" required>
+                            {campanhas.map((c) => <option key={c.id + 1} value={c.id}>{c.titulo}</option>)}
+                        </select>
+                    </div>
+                    <br />
+                    <textarea className="con-espacios" id="planificacion" placeholder="Desarrollo previsto de la sesión" rows="10" defaultValue={planificacion}></textarea><br />
+                    <div>
+                        <label htmlFor="fecha">Fecha y hora: </label>
+                        <input className="fecha-formulario" type="datetime-local" id="fecha" name="fecha" defaultValue={fecha} /><br />
+                    </div>
+                    <hr />
+                    <div className="sesion-completada" id="completada">
+                        <label className="checkbox" htmlFor="fecha">¿Sesión completada?</label>
+                        <label className="switch">
+                            <input id="estado" type="checkbox" name="estado" onChange={verResultados} />
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                    <div id="contenedor-resultados"></div>
+                    <br />
+                    <input className="boton" title={boton + " sesión"} type="submit" value={boton} />
+                </form>
+                <p id="mensaje-feedback" className="mensaje-feedback"></p>
+            </section>
+        </div>
     );
 }
 

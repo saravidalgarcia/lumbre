@@ -4,12 +4,23 @@ import Footer from '../components/Footer';
 import MenuPpal from '../components/MenuPpal';
 import { getRazas, eliminarRaza, getPersonajes } from '../peticiones';
 
-function Razas(props){
+/**
+ * Componente que representa la interfaz de visualización de razas - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function Razas(props) {
 
+    /**
+     * Almacena las razas predeterminadas y del usuario
+     */
+    const [razas, setRazas] = useState([]);
+
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
-
-    const [razas, setRazas] = useState([]); 
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -30,20 +41,24 @@ function Razas(props){
             }
         }
         fetchData().catch(console.error);
-    },[]);
+    }, []);
 
+    /**
+     * Determina si hay que mostrar el mensaje que informa de
+     * que no hay razas o no
+     */
     useEffect(() => {
-        if(razas.length > 0)
-        document.getElementById("vacio").innerHTML = "";
+        if (razas.length > 0)
+            document.getElementById("vacio").innerHTML = "";
         else
-        document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
+            document.getElementById("vacio").innerHTML = "No hay nada que mostrar aquí todavía.";
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[razas]);
+    }, [razas]);
 
     /**
      * Redirecciona al usuario a la página de creación de raza
      */
-    function crearRaza() {
+    const crearRaza = () => {
         window.location.href = "raza/crear";
     }
 
@@ -52,7 +67,7 @@ function Razas(props){
      * con el id recibido
      * @param id
      */
-    function verRaza(id) {
+    const verRaza = (id) => {
         localStorage.id_raza = id;
         window.location.href = "/raza/ver";
     }
@@ -63,15 +78,15 @@ function Razas(props){
      * @param raza - El id de la raza 
      * @param personajes - Los personajes del usuario
      */
-         function checkPersonajes(raza, personajes){
-            let tienePjs = false;
-            personajes.forEach(personaje => {
-                if(personaje.raza.id.toString() === raza.toString()){
-                    tienePjs = true;
-                }
-            });
-            return tienePjs;
-        }
+    const checkPersonajes = (raza, personajes) => {
+        let tienePjs = false;
+        personajes.forEach(personaje => {
+            if (personaje.raza.id.toString() === raza.toString()) {
+                tienePjs = true;
+            }
+        });
+        return tienePjs;
+    }
 
     /**
      * Comprueba que la raza se pueda borrar (que no existan personajes
@@ -81,21 +96,20 @@ function Razas(props){
      * procesa el resultado
      * @param id
      */
-    async function eliminar(id) {
+    const eliminar = async (id) => {
         let personajes = await getPersonajes();
-        let tienePjs = checkPersonajes(id,personajes);
-        if (tienePjs){
+        let tienePjs = checkPersonajes(id, personajes);
+        if (tienePjs) {
             document.getElementById("mensaje-error").innerHTML = "No se puede borrar una raza con personajes asociados, elimine o cambie de raza a sus personajes primero.";
             document.getElementById("mensaje-error").focus();
-        }else{
+        } else {
             if (window.confirm("¿Seguro que quieres borrar esta raza?")) {
                 let resultado = await eliminarRaza(id);
                 if (resultado !== "OK") {
                     document.getElementById("mensaje-error").innerHTML = "Se ha producido un error al eliminar la raza";
                 }
-                else {
+                else
                     window.location.href = "/razas";
-                }
             }
         }
     }
@@ -106,7 +120,7 @@ function Razas(props){
      * parámetro columnas
      * @param columnas - Array con los números de columna filtrables
      */
-    function buscarEnTabla(columnas) {
+    const buscarEnTabla = (columnas) => {
         var busqueda, filtro, tabla, tr, td, i, texto;
         busqueda = document.getElementById("buscador");
         filtro = busqueda.value.toUpperCase();
@@ -115,9 +129,9 @@ function Razas(props){
         //Recorre las filas de la tabla
         let contador = 0;
         for (i = 0; i < tr.length; i++) {
-        //Para cada fila, toma el valor de las columnas filtrables
-        for(let j = 0; j < columnas.length; j++){
-            td = tr[i].getElementsByTagName("td")[columnas[j]];
+            //Para cada fila, toma el valor de las columnas filtrables
+            for (let j = 0; j < columnas.length; j++) {
+                td = tr[i].getElementsByTagName("td")[columnas[j]];
                 if (td) {
                     texto = td.textContent || td.innerText;
                     //Oculta las filas en las que el valor de columna no coindica con el filtro
@@ -134,16 +148,16 @@ function Razas(props){
                         tr[i].style.backgroundColor = "";
                     }
                 }
-            } 
+            }
         }
     }
-    
+
     /**
      * Ordena las filas de la tabla alfabéticamente por la columna
      * que se indique en el parámetro n.
      * @param n - La columna por la que se ordena
      */
-    function ordenarTabla(n) {
+    const ordenarTabla = (n) => {
         var tabla, filas, cambiar, i, x, y, hacerCambio, dir, contador = 0;
         tabla = document.getElementById("tabla");
         cambiar = true;
@@ -182,8 +196,8 @@ function Razas(props){
                 //Si la tabla ya estaba ordenada ascendentemente, entonces se
                 //reordena descendentemente
                 if (contador === 0 && dir === "asc") {
-                dir = "desc";
-                cambiar = true;
+                    dir = "desc";
+                    cambiar = true;
                 }
             }
         }
@@ -195,63 +209,62 @@ function Razas(props){
         }
     }
 
-    return(
-    <>
-        <Cabecera />
-        <main className="contenido">
-        <MenuPpal />
-        <section className="info">
-        <section className="cabecera-info">
-                <h1>Mis razas</h1>
-                <button onClick={crearRaza} title="Crear raza">Nueva</button>
-            </section>
-            <section id="razas" className="cuerpo-info">
-                <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
-                <div className="personajes">
-                <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
-            <input type="text" className="buscador" id="buscador" onKeyUp={() => buscarEnTabla([0, 1])} placeholder="Buscar..." title="Escribe un nombre"/>
-            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
-            <table id="tabla">
-                <thead>
-                    <tr>
-                        <th onClick={() => ordenarTabla(0)} scope="col">Denominación</th>
-                        <th onClick={() => ordenarTabla(1)} scope="col">Tipo</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody id="filas">
-                {
-                    razas.map((r) => 
-                    (r.tipo === "Predefinida") ?
-                        <tr key={r.id}>
-                            <td className="t-raza">{r.denominacion}</td>
-                            <td className="t-raza">{r.tipo}</td>
-                            <td className="t-raza t-opciones">
-                                <button className="b-opcion-tabla" onClick={() => verRaza(r.id)} title="Ver raza">Ver</button>
-                            </td>
-                        </tr>
-                        :
-                        <tr key={r.id}>
-                            <td className="t-raza">{r.denominacion}</td>
-                            <td className="t-raza">{r.tipo}</td>
-                            <td className="t-raza t-opciones">
-                                <button className="b-opcion-tabla" onClick={() => verRaza(r.id)} title="Ver raza">Ver</button>
-                                <button className="b-opcion-tabla" onClick={() => eliminar(r.id)} title="Eliminar raza">Eliminar</button>
-                            </td>
-                        </tr>
-                    )
-                }   
-                </tbody>
-            </table>
-        </div>
-        </section>
-        </section>
-            
-          
-      </main>
-      <Footer />
-    </>
-  );
+    /**
+     * Contenido de la interfaz de visualización de razas
+     */
+    return (
+        <>
+            <Cabecera />
+            <main className="contenido">
+                <MenuPpal />
+                <section className="info">
+                    <section className="cabecera-info">
+                        <h1>Mis razas</h1>
+                        <button onClick={crearRaza} title="Crear raza">Nueva</button>
+                    </section>
+                    <section id="razas" className="cuerpo-info">
+                        <p className="mensaje-noinfo" id="vacio">No hay nada que mostrar aquí todavía.</p>
+                        <div className="personajes">
+                            <p className="mensaje mensaje-feedback black" id="mensaje-error"></p>
+                            <input type="text" className="buscador" id="buscador" onKeyUp={() => buscarEnTabla([0, 1])} placeholder="Buscar..." title="Escribe un nombre" />
+                            <p className="mensaje orden-tabla">Pulsa sobre el nombre de una columna para ordenar los resultados.</p>
+                            <table id="tabla">
+                                <thead>
+                                    <tr>
+                                        <th onClick={() => ordenarTabla(0)} scope="col">Denominación</th>
+                                        <th onClick={() => ordenarTabla(1)} scope="col">Tipo</th>
+                                        <th scope="col">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filas">
+                                    {razas.map((r) =>
+                                        (r.tipo === "Predefinida") ?
+                                            <tr key={r.id}>
+                                                <td className="t-raza">{r.denominacion}</td>
+                                                <td className="t-raza">{r.tipo}</td>
+                                                <td className="t-raza t-opciones">
+                                                    <button className="b-opcion-tabla" onClick={() => verRaza(r.id)} title="Ver raza">Ver</button>
+                                                </td>
+                                            </tr>
+                                            :
+                                            <tr key={r.id}>
+                                                <td className="t-raza">{r.denominacion}</td>
+                                                <td className="t-raza">{r.tipo}</td>
+                                                <td className="t-raza t-opciones">
+                                                    <button className="b-opcion-tabla" onClick={() => verRaza(r.id)} title="Ver raza">Ver</button>
+                                                    <button className="b-opcion-tabla" onClick={() => eliminar(r.id)} title="Eliminar raza">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </main>
+            <Footer />
+        </>
+    );
 }
 
 export default Razas;

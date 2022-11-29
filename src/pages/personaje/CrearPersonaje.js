@@ -5,12 +5,23 @@ import MenuPpal from '../../components/MenuPpal';
 import FormPersonaje from '../../components/FormPersonaje';
 import { crearPersonaje, getRazas } from '../../peticiones';
 
-function CrearPersonaje(props){
+/**
+ * Componente que representa la interfaz de creación de personaje - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function CrearPersonaje(props) {
 
+    /**
+     * Se almacena la información de las razas (para mostrarla en el desplegable)
+     */
+    const [razas, setRazas] = useState([]);
+
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
-
-    const [razas, setRazas] = useState([]); 
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -30,39 +41,39 @@ function CrearPersonaje(props){
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+    }, []);
 
     /**
      * Llama a la función que hace la petición a la API para crear el personaje con los datos del 
      * formulario y procesa el resultado 
      */
-    async function crear(event) {
+    const crear = async (event) => {
         event.preventDefault();
         let datos = new FormData(document.getElementById("form-personaje"));
         let resultado = await crearPersonaje(datos);
-        if (resultado !== "OK") {
+        if (resultado !== "OK")
             document.getElementById("mensaje-feedback").innerHTML = "Se ha producido un error al crear el personaje";
-        }
-        else {
+        else
             window.location.href = "/personajes";
-        }
     }
 
-    
-    return(
-    <>
-    <Cabecera />
-        <main className="contenido">
-        <MenuPpal />
-            <section className="info">
-                <section className="cabecera-info">
-                    <h3>Nuevo personaje</h3>
+    /**
+     * Contenido de la interfaz de creación de personaje
+     */
+    return (
+        <>
+            <Cabecera />
+            <main className="contenido">
+                <MenuPpal />
+                <section className="info">
+                    <section className="cabecera-info">
+                        <h3>Nuevo personaje</h3>
+                    </section>
+                    <FormPersonaje razas={razas} accion={crear} boton={"Crear"} />
                 </section>
-                <FormPersonaje razas={razas} accion={crear} boton={"Crear"}/>
-            </section>
-        </main>
-        <Footer />
-    </>
+            </main>
+            <Footer />
+        </>
     );
 }
 

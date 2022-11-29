@@ -4,10 +4,18 @@ import Cabecera from '../components/Cabecera';
 import Footer from '../components/Footer';
 import { actualizar } from '../peticiones';
 
-function Contrasenha(props){
+/**
+ * Componente que representa la interfaz de cambio de contraseña - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function Contrasenha(props) {
 
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
@@ -16,10 +24,9 @@ function Contrasenha(props){
     useEffect(() => {
         if (localStorage.getItem("token") === null)
             window.location.replace("/login");
-        else {
+        else
             document.getElementById("username").innerHTML = localStorage.getItem("username");
-        }
-    },[]);
+    }, []);
 
     /**
      * Llama a la función que comprueba la información introducida en el
@@ -27,7 +34,7 @@ function Contrasenha(props){
      * los nuevos datos
      * @param event
      */
-    function enviar(event) {
+    const enviar = (event) => {
         event.preventDefault();
         checkActualizacion();
     }
@@ -36,7 +43,7 @@ function Contrasenha(props){
      * Comprueba que los datos del formulario son correctos y llama
      * a la función que actualiza la contraseña
      */
-    function checkActualizacion() {
+    const checkActualizacion = () => {
         let passwd = document.getElementById("passwd");
         let passwdn = document.getElementById("passwdn");
         let passwdn2 = document.getElementById("passwdn2");
@@ -62,44 +69,46 @@ function Contrasenha(props){
      * Prepara los datos a enviar, llama a la función que hace la petición a la API
      * y procesa el resultado
      */
-    async function actualizarContrasenha(oldP, newP) {
+    const actualizarContrasenha = async (oldP, newP) => {
         let datos = {};
         datos.email = newP;
         datos.username = localStorage.username;
         datos.passwd = oldP;
         let resultado = await actualizar(datos);
-        if (resultado === "OK") {
+        if (resultado === "OK")
             window.location.href = "/campanhas";
-        } else {
+        else
             if (resultado === "ERROR")
                 document.getElementById("mensaje-feedback").innerHTML = "La contraseña actual introducida es incorrecta.";
             else
                 document.getElementById("mensaje-feedback").innerHTML = "Error en la actualización de la contraseña.";
-        }
     }
 
-    return(
-    <>
-        <Cabecera />
-        <main className="registro">
-        <div className="div-form registro-form">
-          <section>
-            <form onSubmit={enviar}>
-              <input type="password" id="passwd" name="passwd" placeholder="Contraseña actual" required /><br />
-              <input type="password" id="passwdn" name="passwd" placeholder="Contraseña nueva" required /><br />
-              <input type="password" id="passwdn2" name="passwd2" placeholder="Repetir contraseña nueva" required /><br />
-              <input className="boton" title="Actualizar contraseña" type="submit" defaultValue="Actualizar" />
-            </form>
-            <p id="mensaje-feedback" className="mensaje-feedback" />
-          </section>
-          <hr />
-          <section>
-            <Link to='/campanhas' className="boton" title="Volver" type="button">Volver</Link>
-          </section>
-        </div>
-      </main>
-        <Footer />
-    </>
+    /**
+     * Contenido de la interfaz de cambio de contraseña
+     */
+    return (
+        <>
+            <Cabecera />
+            <main className="registro">
+                <div className="div-form registro-form">
+                    <section>
+                        <form onSubmit={enviar}>
+                            <input type="password" id="passwd" name="passwd" placeholder="Contraseña actual" required /><br />
+                            <input type="password" id="passwdn" name="passwd" placeholder="Contraseña nueva" required /><br />
+                            <input type="password" id="passwdn2" name="passwd2" placeholder="Repetir contraseña nueva" required /><br />
+                            <input className="boton" title="Actualizar contraseña" type="submit" defaultValue="Actualizar" />
+                        </form>
+                        <p id="mensaje-feedback" className="mensaje-feedback" />
+                    </section>
+                    <hr />
+                    <section>
+                        <Link to='/campanhas' className="boton" title="Volver" type="button">Volver</Link>
+                    </section>
+                </div>
+            </main>
+            <Footer />
+        </>
     );
 }
 

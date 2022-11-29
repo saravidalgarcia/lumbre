@@ -3,12 +3,23 @@ import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 import { login, getListaUsuarios, registrar } from '../peticiones';
 
-function Registro(props){
+/**
+ * Componente que representa la interfaz de registro - Lumbre
+ * 
+ * @author Sara Vidal García
+ */
+function Registro(props) {
 
+    /**
+     * Almacena la información de los usuarios que ya están registrados
+     */
+    const [data, setData] = useState([]);
+
+    /**
+     * Actualiza el título de la página
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {document.title = props.title + " - Lumbre"}, []);
-
-    const [data, setData] = useState([]);     
+    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
 
     /**
      * Se comprueba que el usuario esté autenticado y, si es así, se le redirige a
@@ -30,13 +41,13 @@ function Registro(props){
             }
         }
         fetchData().catch(console.error);
-    },[]);
+    }, []);
 
     /**
      * Comprueba si el email introducido ya está registrado
      * @param email  
      */
-    function checkEmailRegistrado(email) {
+    const checkEmailRegistrado = (email) => {
         for (let i = 0; i < data.length; i++) {
             if (data[i].email === email)
                 return true;
@@ -48,7 +59,7 @@ function Registro(props){
      * Comprueba si el username introducido ya está registrado
      * @param username 
      */
-    function checkUsernameRegistrado(username) {
+    const checkUsernameRegistrado = (username) => {
         for (let i = 0; i < data.length; i++) {
             if (data[i].username === username)
                 return true;
@@ -59,7 +70,7 @@ function Registro(props){
     /**
      * Comprueba los datos del formulario antes de hacer el envío
      */
-    function checkRegistro() {
+    const checkRegistro = () => {
         let email = document.getElementById("email");
         let username = document.getElementById("username");
         let passwd = document.getElementById("passwd");
@@ -101,7 +112,7 @@ function Registro(props){
      * @param username 
      * @param passwd 
      */
-    async function hacerRegistro(email, username, passwd) {
+    const hacerRegistro = async (email, username, passwd) => {
         let datos = {};
         datos.email = email;
         datos.username = username;
@@ -119,7 +130,7 @@ function Registro(props){
      * funcionó correctamente, llamando a la función que hace la petición de login a la API
      * y procesando el resultado
      */
-    async function hacerLogin() {
+    const hacerLogin = async () => {
         let datos = {};
         datos.username = document.getElementById('username').value;
         datos.passwd = document.getElementById('passwd').value;
@@ -127,44 +138,46 @@ function Registro(props){
         if (respuesta.status === 200) {
             localStorage.token = await respuesta.text();
             localStorage.username = datos.username;
-            window.location.replace("../campanhas.html");
-        } else {
+            window.location.replace("/campanhas");
+        } else
             document.getElementById("mensaje-feedback").innerHTML = "Credenciales incorrectas.";
-        }
     }
-    
+
     /**
      * Llama a la función que hace las comprobaciones del formulario
      * antes de enviarlo
      */
-    const enviar = e =>{
+    const enviar = e => {
         e.preventDefault();
         checkRegistro();
     };
 
-    return(
-    <>
-        <main className="registro">
-          <div className="div-form registro-form">
-            <section>
-              <form onSubmit={enviar}>
-                <input type="email" id="email" name="email" placeholder="Email" title="Debe introducir un email válido." required /><br />
-                <input type="text" id="username" name="username" placeholder="Nombre de usuario" required /><br />
-                <input type="password" id="passwd" name="passwd" placeholder="Contraseña" required /><br />
-                <input type="password" id="passwd2" name="passwd2" placeholder="Repetir contraseña" required /><br />
-                <input className="boton" title="Crear cuenta" type="submit" defaultValue="Crear cuenta" />
-              </form>
-              <p id="mensaje-feedback" className="mensaje-feedback" />
-            </section>
-            <hr />
-            <section>
-              <p>¿Ya tienes una cuenta?</p>
-              <Link to="/login" className="boton" title="Iniciar sesión" type="button">Iniciar sesión</Link>
-            </section>
-          </div>
-        </main>
-        <Footer />
-    </>
+    /**
+     * Contenido de la interfaz de registro
+     */
+    return (
+        <>
+            <main className="registro">
+                <div className="div-form registro-form">
+                    <section>
+                        <form onSubmit={enviar}>
+                            <input type="email" id="email" name="email" placeholder="Email" title="Debe introducir un email válido." required /><br />
+                            <input type="text" id="username" name="username" placeholder="Nombre de usuario" required /><br />
+                            <input type="password" id="passwd" name="passwd" placeholder="Contraseña" required /><br />
+                            <input type="password" id="passwd2" name="passwd2" placeholder="Repetir contraseña" required /><br />
+                            <input className="boton" title="Crear cuenta" type="submit" defaultValue="Crear cuenta" />
+                        </form>
+                        <p id="mensaje-feedback" className="mensaje-feedback" />
+                    </section>
+                    <hr />
+                    <section>
+                        <p>¿Ya tienes una cuenta?</p>
+                        <Link to="/login" className="boton" title="Iniciar sesión" type="button">Iniciar sesión</Link>
+                    </section>
+                </div>
+            </main>
+            <Footer />
+        </>
     );
 }
 
