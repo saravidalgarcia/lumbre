@@ -2,7 +2,7 @@
 
 ## Introducción
 ### Lumbre: Lado cliente de la aplicación para usuarios
-Este proyecto es una aplicación web desarrollada con React. Constituye el lado cliente de la aplicación para usuarios de LUMBRE.
+Este proyecto es una aplicación web desarrollada en HTML5, CSS3 y Javascript con el framework React. Constituye el lado cliente de la aplicación para usuarios de LUMBRE.
 
 ## Tecnologías
 * HTML5
