@@ -9,22 +9,12 @@ import { actualizar } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Contrasenha(props) {
+function Contrasenha(){
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
+     * Se establece el nombre de usuario en la cabecera
      */
     useEffect(() => {
-        if (localStorage.getItem("token") === null)
-            window.location.replace("/login");
-        else
             document.getElementById("username").innerHTML = localStorage.getItem("username");
     }, []);
 

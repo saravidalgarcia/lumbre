@@ -10,25 +10,14 @@ import { crearRaza } from '../../peticiones';
  * 
  * @author Sara Vidal García
  */
-function CrearRaza(props) {
+function CrearRaza(){
 
     /**
-     * Actualiza el título de la página
+     * Se establece el nombre de usuario y la sección actual
      */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-      * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-      * la página de login
-      */
     useEffect(() => {
-        if (localStorage.getItem("token") == null)
-            window.location.replace("/login");
-        else {
-            document.getElementById("menu-ppal-razas").classList.add("actual");
-            document.getElementById("username").innerHTML = localStorage.getItem("username");
-        }
+        document.getElementById("menu-ppal-razas").classList.add("actual");
+        document.getElementById("username").innerHTML = localStorage.getItem("username");
     }, []);
 
     /**

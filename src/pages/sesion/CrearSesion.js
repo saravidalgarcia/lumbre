@@ -10,7 +10,7 @@ import { crearSesion, getCampanha, getCampanhas } from '../../peticiones';
  * 
  * @author Sara Vidal García
  */
-function CrearSesion(props) {
+function CrearSesion(){
 
     /**
      * Almacena las campañas (para el desplegable de campaña)
@@ -18,32 +18,19 @@ function CrearSesion(props) {
     const [campanhas, setCampanhas] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, determina si se está creando la sesión para una campaña concreta o
-     * no y, en función de eso, recupera los nombres de campañas para cubrir el desplegable
-     * del formulario
+     * Se establece el nombre de usuario y la sección actual, y se determina si se está
+     * creando la sesión para una campaña concreta o no y, en función de eso, recupera
+     * los nombres de campañas para cubrir el desplegable del formulario
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
+            document.getElementById("menu-ppal-sesiones").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            if (localStorage.getItem("id_campanha") == null)
+                setCampanhas(await getCampanhas());
             else {
-                document.getElementById("menu-ppal-sesiones").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                if (localStorage.getItem("id_campanha") == null) {
-                    setCampanhas(await getCampanhas());
-                }
-                else {
-                    let campanha = await getCampanha();
-                    setCampanhas([campanha]);
-                }
+                let campanha = await getCampanha();
+                setCampanhas([campanha]);
             }
         }
         fetchData().catch(console.error);

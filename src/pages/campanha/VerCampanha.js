@@ -9,7 +9,7 @@ import { getCampanha, getPersonajes, addPersonajeCampanha, removePersonajeCampan
  * 
  * @author Sara Vidal García
  */
-function VerCampanha(props) {
+function VerCampanha(){
 
     /**
      * Se almacenan la información de la campaña y sus sesiones asociadas
@@ -18,28 +18,17 @@ function VerCampanha(props) {
     const [sesiones, setSesiones] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera la información de la campaña de la API
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información
+     * de la campaña de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") === null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-campanhas").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                localStorage.removeItem("id_sesion");
-                let data = await getCampanha();
-                setCampanha(data);
-                setSesiones(data.sesiones);
-            }
+            document.getElementById("menu-ppal-campanhas").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            localStorage.removeItem("id_sesion");
+            let data = await getCampanha();
+            setCampanha(data);
+            setSesiones(data.sesiones);
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps     

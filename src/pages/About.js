@@ -8,16 +8,10 @@ import Cabecera from '../components/Cabecera';
  * 
  * @author Sara Vidal García
  */
-function About(props) {
+function About(){
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado
+     * Se comprueba que el usuario esté autenticado para mostrar el username en la cabecera
      */
     useEffect(() => {
         if (localStorage.getItem("token") != null)

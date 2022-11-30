@@ -9,7 +9,7 @@ import { getSesiones } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Calendario(props) {
+function Calendario(){
 
     /**
      * Almacena las sesiones del usuario
@@ -17,26 +17,15 @@ function Calendario(props) {
     const [sesiones, setSesiones] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si está autenticado, se recuperan sus sesiones y se crea un nuevo calendario
+     * Se establece el nombre de usuario y la sección actual, y se recuperan las sesiones
+     * del usuario de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
                 document.getElementById("username").innerHTML = localStorage.getItem("username");
                 localStorage.removeItem("id_sesion");
                 document.getElementById("menu-ppal-calendario").classList.add("actual");
                 setSesiones(await getSesiones());
-            }
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,7 +146,6 @@ function Calendario(props) {
         siguiente.textContent = meses[siguienteM.getMonth()] + " >";
         siguiente.setAttribute("data-fecha", siguienteM);
     }
-
 
     /**
      * Recibe un día y comprueba si tiene sesiones asociadas

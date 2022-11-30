@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 import { login } from '../peticiones';
@@ -8,22 +8,7 @@ import { login } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Login(props) {
-
-    /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si es así, se le redirige a
-     * la página de visualización de campañas
-     */
-    useEffect(() => {
-        if (localStorage.getItem("token") != null)
-            window.location.href = "/campanhas";
-    }, []);
+function Login(){
 
     /**
      * Llama a la función que hace la petición de login a la API con los datos

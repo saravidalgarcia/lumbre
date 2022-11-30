@@ -9,7 +9,7 @@ import { eliminarSesionCampanha, getSesion } from '../../peticiones';
  * 
  * @author Sara Vidal García
  */
-function VerSesion(props) {
+function VerSesion(){
 
     /**
      * Almacena la información de la sesión
@@ -17,26 +17,14 @@ function VerSesion(props) {
     const [sesion, setSesion] = useState({ nombre: "Nombre", campanha: {}, creacion: "", modificacion: "" });
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login.
-     * Si lo está, recupera la información de la sesión de la API
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información
+     * de la sesión de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-sesiones").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                let data = await getSesion();
-                setSesion(data);
-            }
+            document.getElementById("menu-ppal-sesiones").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setSesion(await getSesion());
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps

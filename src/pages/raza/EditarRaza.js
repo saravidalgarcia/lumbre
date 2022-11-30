@@ -10,34 +10,22 @@ import FormRaza from '../../components/FormRaza';
  * 
  * @author Sara Vidal García
  */
-function EditarRaza(props) {
+function EditarRaza(){
 
     /**
      * Almacena la información de la raza
      */
-    const [razas, setRazas] = useState([{ denominacion: "", descripcion: "", creacion: "", modificacion: "" }]);
+    const [raza, setRaza] = useState({ denominacion: "", descripcion: "", creacion: "", modificacion: "" });
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera la información de la raza de la API
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información
+     * de la raza de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-razas").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                let data = await getRaza();
-                setRazas([data]);
-            }
+            document.getElementById("menu-ppal-razas").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setRaza(await getRaza());
         }
         fetchData().catch(console.error);
     }, []);
@@ -79,9 +67,7 @@ function EditarRaza(props) {
                     <section className="cabecera-info">
                         <h3>Editar raza</h3>
                     </section>
-                    {razas.map((raza) =>
-                        <FormRaza key={raza.denominacion} denominacion={raza.denominacion} descripcion={raza.descripcion} boton={"Actualizar"} accion={actualizar} />
-                    )}
+                    <FormRaza key={raza.denominacion} denominacion={raza.denominacion} descripcion={raza.descripcion} boton={"Actualizar"} accion={actualizar} />
                 </section>
             </main>
             <Footer />

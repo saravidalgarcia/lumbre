@@ -10,36 +10,24 @@ import FormPersonaje from '../../components/FormPersonaje';
  * 
  * @author Sara Vidal García
  */
-function EditarPersonaje(props) {
+function EditarPersonaje(){
 
     /**
      * Se almacenan el personaje y las razas (para el desplegable de razas)
      */
-    const [personajes, setPersonajes] = useState([{ nombre: "", jugador: "", informacion: "", raza: {}, creacion: "", modificacion: "" }]);
+    const [personaje, setPersonaje] = useState({ nombre: "", jugador: "", informacion: "", raza: {}, creacion: "", modificacion: "" });
     const [razas, setRazas] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera la información de las razas para cubrir el desplegable de
-     * elección de raza y recupera la información del personaje
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información
+     * de las razas para el desplegable de elección de raza y la información del personaje
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-personajes").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                setRazas(await getRazas());
-                setPersonajes([await getPersonaje()]);
-            }
+            document.getElementById("menu-ppal-personajes").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setRazas(await getRazas());
+            setPersonaje(await getPersonaje());
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,9 +59,7 @@ function EditarPersonaje(props) {
                     <section className="cabecera-info">
                         <h3>Editar personaje</h3>
                     </section>
-                    {personajes.map((personaje) =>
-                        <FormPersonaje key={personaje.nombre} nombre={personaje.nombre} jugador={personaje.jugador} informacion={personaje.informacion} raza={personaje.raza.id} razas={razas} accion={actualizar} boton={"Actualizar"} />
-                    )}
+                    <FormPersonaje key={personaje.nombre} nombre={personaje.nombre} jugador={personaje.jugador} informacion={personaje.informacion} raza={personaje.raza.id} razas={razas} accion={actualizar} boton={"Actualizar"} />
                 </section>
             </main>
             <Footer />

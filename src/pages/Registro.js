@@ -8,7 +8,7 @@ import { login, getListaUsuarios, registrar } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Registro(props) {
+function Registro(){
 
     /**
      * Almacena la información de los usuarios que ya están registrados
@@ -16,28 +16,16 @@ function Registro(props) {
     const [data, setData] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si es así, se le redirige a
-     * la página de visualización de campañas
-     * Si no, se recupera la lista de usuarios para realizar comprobaciones a la hora
-     * de crear el nuevo usuario
+     * Se recupera la lista de usuarios para realizar comprobaciones a la hora de
+     * crear el nuevo usuario
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") != null)
-                window.location.replace("../campanhas.html");
-            else {
-                let respuesta = await getListaUsuarios();
-                try {
-                    setData(await respuesta.json());
-                } catch (error) {
-                    setData([]);
-                }
+            let respuesta = await getListaUsuarios();
+            try {
+                setData(await respuesta.json());
+            } catch (error) {
+                setData([]);
             }
         }
         fetchData().catch(console.error);

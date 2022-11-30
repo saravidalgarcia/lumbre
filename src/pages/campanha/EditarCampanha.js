@@ -10,34 +10,22 @@ import FormCampanha from '../../components/FormCampanha';
  * 
  * @author Sara Vidal García
  */
-function EditarCampanha(props) {
+function EditarCampanha(){
 
     /**
      * Almacena la información de la campaña
      */
-    const [campanhas, setCampanhas] = useState([{ titulo: "Título", resumen: "Resumen", creacion: "", modificacion: "" }]);
+    const [campanha, setCampanha] = useState({ titulo: "", resumen: "", creacion: "", modificacion: "" });
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera la información de la campaña de la API
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información de la
+     * campaña de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-campanhas").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                let data = await getCampanha();
-                setCampanhas([data]);
-            }
+            document.getElementById("menu-ppal-campanhas").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setCampanha(await getCampanha());
         }
         fetchData().catch(console.error);
     }, []);
@@ -80,9 +68,7 @@ function EditarCampanha(props) {
                     <section className="cabecera-info">
                         <h3>Editar campaña</h3>
                     </section>
-                    {campanhas.map((campanha) =>
-                        <FormCampanha key={campanha.titulo} titulo={campanha.titulo} resumen={campanha.resumen} informacion={campanha.informacion} boton={"Actualizar"} accion={actualizar} />
-                    )}
+                    <FormCampanha key={campanha.titulo} titulo={campanha.titulo} resumen={campanha.resumen} informacion={campanha.informacion} boton={"Actualizar"} accion={actualizar} />
                 </section>
             </main>
             <Footer />

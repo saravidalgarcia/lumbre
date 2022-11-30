@@ -10,7 +10,7 @@ import { getSesiones, getCampanhas } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Sesiones(props) {
+function Sesiones(){
 
     /**
      * Almacena las sesiones del usuario
@@ -18,21 +18,11 @@ function Sesiones(props) {
     const [sesiones, setSesiones] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, se recuperan las sesiones de la API
+     * Se establece el nombre de usuario y la sección actual, y se recuperan las sesiones
+     * de la API y las campañas para el desplegable de filtro por campañas
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
                 document.getElementById("username").innerHTML = localStorage.getItem("username");
                 localStorage.removeItem("id_sesion");
                 localStorage.removeItem("id_campanha");
@@ -40,10 +30,8 @@ function Sesiones(props) {
                 let data = await getSesiones();
                 if (data.length > 0) {
                     setSesiones(data);
-                    let campanhas = await getCampanhas();
-                    setCampanhas(campanhas);
+                    setCampanhas(await getCampanhas());
                 }
-            }
         }
         fetchData().catch(console.error);
     }, []);

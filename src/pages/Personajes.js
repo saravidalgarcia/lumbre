@@ -9,7 +9,7 @@ import { getPersonajes, eliminarPersonaje } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Personajes(props) {
+function Personajes(){
 
     /**
      * Se almacenan los personajes del usuario
@@ -17,28 +17,17 @@ function Personajes(props) {
     const [personajes, setPersonajes] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, se recuperan los personajes de la API
+     * Se establece el nombre de usuario y la sección actual, y se recuperan los
+     * personajes de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") === null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                localStorage.removeItem("id_personaje");
-                document.getElementById("menu-ppal-personajes").classList.add("actual");
-                let data = await getPersonajes();
-                if (data.length > 0)
-                    setPersonajes(data);
-            }
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            localStorage.removeItem("id_personaje");
+            document.getElementById("menu-ppal-personajes").classList.add("actual");
+            let data = await getPersonajes();
+            if (data.length > 0)
+                setPersonajes(data);
         }
         fetchData().catch(console.error);
     }, []);

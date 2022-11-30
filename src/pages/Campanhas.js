@@ -10,7 +10,7 @@ import { getCampanhas } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Campanhas(props) {
+function Campanhas(){
 
     /**
      * Se almacenan las campañas del usuario
@@ -18,28 +18,17 @@ function Campanhas(props) {
     const [campanhas, setCampanhas] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, se recuperan las campañas de la API
+     * Se establece el nombre de usuario y la sección actual, y se recuperan las 
+     * campañas de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                localStorage.removeItem("id_campanha");
-                document.getElementById("menu-ppal-campanhas").classList.add("actual");
-                let data = await getCampanhas();
-                if (data.length > 0)
-                    setCampanhas(data);
-            }
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            localStorage.removeItem("id_campanha");
+            document.getElementById("menu-ppal-campanhas").classList.add("actual");
+            let data = await getCampanhas();
+            if (data.length > 0)
+                setCampanhas(data);
         }
         fetchData().catch(console.error);
     }, []);

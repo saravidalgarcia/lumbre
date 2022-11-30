@@ -10,34 +10,22 @@ import FormSesion from '../../components/FormSesion';
  * 
  * @author Sara Vidal García
  */
-function EditarSesion(props) {
+function EditarSesion(){
     
     /**
      * Almacena la información de la sesión
      */
-    const [sesiones, setSesiones] = useState([{ nombre: "Nombre", campanha: {}, creacion: "", modificacion: "" }]);
+    const [sesion, setSesion] = useState({ nombre: "", campanha: {}, creacion: "", modificacion: "" });
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera la información de la sesión de la API
+     * Se establece el nombre de usuario y la sección actual, y se recupera la información
+     * de la sesión de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-sesiones").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                let data = await getSesion();
-                setSesiones([data]);
-            }
+            document.getElementById("menu-ppal-sesiones").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setSesion(await getSesion());
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,17 +36,17 @@ function EditarSesion(props) {
      * de la sesión (si los hay)
      */
     useEffect(() => {
-        if (sesiones[0].estado === "Completada") {
+        if (sesion.estado === "Completada") {
             document.getElementById("estado").checked = true;
             let resultado = document.createElement("textarea");
             resultado.classList.add("con-espacios");
             resultado.id = "resultados";
             resultado.placeholder = "Resumen de la sesión";
             resultado.rows = "10";
-            resultado.defaultValue = (sesiones[0].resultados) ? sesiones[0].resultados : "";
+            resultado.defaultValue = (sesion.resultados) ? sesion.resultados : "";
             document.getElementById("contenedor-resultados").appendChild(resultado);
         }
-    }, [sesiones]);
+    }, [sesion]);
 
     /**
      * Devuelve un JSON con los datos del formulario 
@@ -100,9 +88,7 @@ function EditarSesion(props) {
                     <section className="cabecera-info">
                         <h3>Editar sesión</h3>
                     </section>
-                    {sesiones.map((sesion) =>
-                        <FormSesion key={sesion.nombre} nombre={sesion.nombre} campanhas={[sesion.campanha]} planificacion={sesion.planificacion} boton={"Actualizar"} fecha={sesion.fecha} resultados={sesion.resultados} accion={actualizar} />
-                    )}
+                    <FormSesion key={sesion.nombre} nombre={sesion.nombre} campanhas={[sesion.campanha]} planificacion={sesion.planificacion} boton={"Actualizar"} fecha={sesion.fecha} resultados={sesion.resultados} accion={actualizar} />
                 </section>
             </main>
             <Footer />

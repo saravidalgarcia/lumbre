@@ -9,7 +9,7 @@ import { getRazas, eliminarRaza, getPersonajes } from '../peticiones';
  * 
  * @author Sara Vidal García
  */
-function Razas(props) {
+function Razas(){
 
     /**
      * Almacena las razas predeterminadas y del usuario
@@ -17,28 +17,17 @@ function Razas(props) {
     const [razas, setRazas] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, se recuperan las razas de la API
+     * Se establece el nombre de usuario y la sección actual, y se recuperan las razas
+     * de la API
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") === null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                localStorage.removeItem("id_raza");
-                document.getElementById("menu-ppal-razas").classList.add("actual");
-                let data = await getRazas();
-                if (data.length > 0)
-                    setRazas(data);
-            }
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            localStorage.removeItem("id_raza");
+            document.getElementById("menu-ppal-razas").classList.add("actual");
+            let data = await getRazas();
+            if (data.length > 0)
+                setRazas(data);
         }
         fetchData().catch(console.error);
     }, []);

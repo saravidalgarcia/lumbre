@@ -10,7 +10,7 @@ import { crearPersonaje, getRazas } from '../../peticiones';
  * 
  * @author Sara Vidal García
  */
-function CrearPersonaje(props) {
+function CrearPersonaje(){
 
     /**
      * Se almacena la información de las razas (para mostrarla en el desplegable)
@@ -18,26 +18,15 @@ function CrearPersonaje(props) {
     const [razas, setRazas] = useState([]);
 
     /**
-     * Actualiza el título de la página
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { document.title = props.title + " - Lumbre" }, []);
-
-    /**
-     * Se comprueba que el usuario esté autenticado y, si no es así, se le redirige a
-     * la página de login
-     * Si lo está, recupera las razas para cubrir el desplegable de selección de raza
+     * Se establece el nombre de usuario y la sección actual, y se recuperan las razas para cubrir
+     * el desplegable de selección de raza
      */
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem("token") == null)
-                window.location.replace("/login");
-            else {
-                document.getElementById("menu-ppal-personajes").classList.add("actual");
-                document.getElementById("username").innerHTML = localStorage.getItem("username");
-                setRazas(await getRazas());
-                document.getElementById("imagen-personaje").required = true;
-            }
+            document.getElementById("menu-ppal-personajes").classList.add("actual");
+            document.getElementById("username").innerHTML = localStorage.getItem("username");
+            setRazas(await getRazas());
+            document.getElementById("imagen-personaje").required = true;
         }
         fetchData().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
