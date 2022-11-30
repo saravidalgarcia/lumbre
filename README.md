@@ -8,10 +8,10 @@ Este proyecto es una aplicación web desarrollada con React. Constituye el lado 
 * HTML5
 * CSS3
 * Javascript:
- * node 18.12.1
- * npm 9.1.2
- * react 18.2.0
- * react-router 6.4.3
+    * node 18.12.1
+    * npm 9.1.2
+    * react 18.2.0
+    * react-router 6.4.3
 
 ## Estructura
 El proyecto se ha desarrollado a partir de la estructura básica de una aplicación en React generada con ```npm create-react-app```. Se han añadido los diferentes componentes, que se encuentran en los directorios "pages" (componentes que devuelven páginas enteras) y "components" (componentes más pequeños), y se han configurado las rutas en el componente "App".  
@@ -97,12 +97,18 @@ La estructura del proyecto es la siguiente:
 
 ### Configuración
 Para poder ejecutar el proyecto, se deben instalar sus dependencias. Para ello, se ejecuta en la raíz del proyecto:
-```npm i```  
+```
+npm i
+```  
 Es necesario tener en cuenta que este proyecto funciona conjuntamente con el proyecto del lado servidor, que se puede descargar desde https://github.com/saravidalgarcia/lumbreAPI/.
 
 ### Acceso
 El proyecto se puede desplegar directamente en http://localhost:3000 lanzando en el directorio raíz:
-```npm start```  
+```
+npm start
+```  
 También se puede generar una build (recomendado) con el comando:
-```npm run build```  
+```
+npm run build
+```  
 Dicho comando genera una carpeta "build" en la raíz del proyecto. Su contenido se debe situar en el directorio /var/www/html/lumbre. Hecho esto, el proyecto es accesible desde el navegador, en la dirección http://localhost/lumbre.
