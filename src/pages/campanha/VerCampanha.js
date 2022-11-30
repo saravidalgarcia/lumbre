@@ -118,7 +118,7 @@ function VerCampanha(){
         event.preventDefault();
         var e = document.getElementById("add-personaje");
         var value = e.options[e.selectedIndex].value;
-        if (value === 0) return;
+        if (value === "0") return;
         addPersonajeCampanha(value);
     }
 
