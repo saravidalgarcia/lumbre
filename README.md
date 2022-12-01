@@ -95,20 +95,26 @@ La estructura del proyecto es la siguiente:
 * Servidor Apache instalado y activo
 * node y npm instalados
 
-### Configuración
+### Dependencias
 Para poder ejecutar el proyecto, se deben instalar sus dependencias. Para ello, se ejecuta en la raíz del proyecto:
 ```
-npm i
+$ npm i
 ```  
 Es necesario tener en cuenta que este proyecto funciona conjuntamente con el proyecto del lado servidor, que se puede descargar desde https://github.com/saravidalgarcia/lumbreAPI/.
 
-### Acceso
+### Generación de build
+Para generar una build del proyecto, en el directorio raíz se ejecuta:
+```
+$ npm run build
+```  
+La ejecución de este comando genera una carpeta "build" en la raíz del proyecto.
+
+### Despliegue en Apache
 El proyecto se puede desplegar directamente en http://localhost:3000 lanzando en el directorio raíz:
 ```
-npm start
+$ npm start
 ```  
-También se puede generar una build (recomendado) con el comando:
-```
-npm run build
-```  
-Dicho comando genera una carpeta "build" en la raíz del proyecto. Su contenido se debe situar en el directorio /var/www/html/lumbre. Hecho esto, el proyecto es accesible desde el navegador, en la dirección http://localhost/lumbre.
+Si se ha generado la carpeta build, otra opción es situar el contenido de dicha carpeta en el directorio /var/www/html/lumbre.
+
+### Acceso
+Una vez realizados los pasos anteriores, el proyecto es accesible desde el navegador, en la dirección http://localhost:3000 o en la dirección  http://localhost/lumbre, en función de si se ha creado la build o no.
